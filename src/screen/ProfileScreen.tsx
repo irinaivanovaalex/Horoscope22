@@ -253,6 +253,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           backgroundColor={'rgba(0, 100, 0, 0)'}
         />
         <View style={styles.conteinerTopBar}>
+        <Image
+              source={require('../component/space2.jpg')}
+              blurRadius={0.1}
+              style={{
+                alignSelf: 'center',
+                alignContent: 'center',
+                position: 'absolute',
+                opacity: 0.4,
+              }}
+            />
           <Animated.View style={{
             transform: [{
               translateX: animatedX.interpolate({
@@ -277,21 +287,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
                 alignContent: 'center',
                 position: 'absolute',
                 opacity: 0.2,
-                transform: [
-                  // {
-                  //   translateX: (orientation[0]),
-                  // },
-                  // { translateY: (orientation[1]), 
-                  // },
-                  //   {
-                  //     scaleX: 10+ orientation[0]
-                  //   },
-                  // {
-                  //   scaleY: 10 - orientation[1]
-                  // }
-                ]
-                // translateX: orientation[0]*10,
-                // translateY: 200+ orientation[1]*10,
               }}
             />
           </Animated.View>
