@@ -337,6 +337,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               maxDate={new Date()}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
+              androidMode="spinner"
               showIcon={false}
               allowFontScaling={true}
 
