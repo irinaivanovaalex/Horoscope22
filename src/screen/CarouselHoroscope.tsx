@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         color: '#e6e4e2',
       },
       carouselTextTitle: {
-        fontSize: 13,
+        fontSize: 14,
         fontFamily: 'Montserrat-Light',
         color: '#e6e4e2',
         position: 'absolute',

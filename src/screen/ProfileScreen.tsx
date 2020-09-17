@@ -92,6 +92,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
       const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
       setZodiac(storedZodiac ? storedZodiac : 'leo')
       console.log('zodiac: ', zodiac)
+      console.log('weig', screenWidth, screenHeight)
       storeDataZodiac(storedZodiac ? storedZodiac : 'leo')
     }
     go()
@@ -253,16 +254,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           backgroundColor={'rgba(0, 100, 0, 0)'}
         />
         <View style={styles.conteinerTopBar}>
-        <Image
-              source={require('../component/space2.jpg')}
-              blurRadius={0.1}
-              style={{
-                alignSelf: 'center',
-                alignContent: 'center',
-                position: 'absolute',
-                opacity: 0.4,
-              }}
-            />
+          <Image
+            source={require('../component/space2.jpg')}
+            blurRadius={0.1}
+            style={{
+              alignSelf: 'center',
+              alignContent: 'center',
+              position: 'absolute',
+              opacity: 0.4,
+            }}
+          />
           <Animated.View style={{
             transform: [{
               translateX: animatedX.interpolate({
@@ -314,6 +315,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
             </View>
 
           </View>
+
+
+        </View>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          style={{}}
+        >
+          <View style={styles.conteinerTopBar}>
           <View style={styles.conteiner}>
             <Text style={styles.symbol}>ИМЯ</Text>
             <TextInput
@@ -371,13 +380,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
             </DatePicker>
           </View>
-        </View>
-        <KeyboardAwareScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            
-          }}
-        >
+          </View>
           <View style={styles.carousel}>
             <CarouselHoroscope
               description={'Ваш гороскоп на 3 дня'}
