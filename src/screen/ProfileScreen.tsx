@@ -255,13 +255,20 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
         />
         <View style={styles.conteinerTopBar}>
           <Image
-            source={require('../component/space2.jpg')}
+            source={require('../component/space3.jpg')}
             blurRadius={0.1}
             style={{
               alignSelf: 'center',
               alignContent: 'center',
               position: 'absolute',
-              opacity: 0.4,
+              opacity: 0.3,
+              transform: [{
+                rotate: '90deg',
+
+              },
+              {
+                translateX: -30,
+              }]
             }}
           />
           <Animated.View style={{
@@ -282,12 +289,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           }}>
             <Image
               source={require('../component/space3.jpg')}
-              blurRadius={0.3}
+              blurRadius={0.2}
               style={{
                 alignSelf: 'center',
                 alignContent: 'center',
                 position: 'absolute',
-                opacity: 0.2,
+                opacity: 0.3,
               }}
             />
           </Animated.View>
@@ -316,70 +323,74 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
           </View>
 
-
         </View>
         <KeyboardAwareScrollView
+
           showsVerticalScrollIndicator={false}
+          bouncesZoom={true}
           style={{}}
+          //stickyHeaderIndices={[0]}
         >
+
           <View style={styles.conteinerTopBar}>
-          <View style={styles.conteiner}>
-            <Text style={styles.symbol}>ИМЯ</Text>
-            <TextInput
-              style={styles.textInput}
-              value={value}
-              onChangeText={value => {
-                onChangText(value)
-                storeDataName(value)
+            <View style={styles.conteiner}>
+              <Text style={styles.symbol}>ИМЯ</Text>
+              <TextInput
+                style={styles.textInput}
+                value={value}
+                onChangeText={value => {
+                  onChangText(value)
+                  storeDataName(value)
 
-              }}
+                }}
 
-            />
-          </View>
-          <View style={styles.conteiner}>
-            <Text style={styles.symbol}>ДЕНЬ РОЖДЕНИЯ</Text>
-            <DatePicker
-              date={dateBirth}
-              mode="date"
-              format="DD-MM-YYYY"
-              minDate="01-05-1900"
-              maxDate={new Date()}
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              androidMode="spinner"
-              showIcon={false}
-              allowFontScaling={true}
+              />
+            </View>
+            <View style={styles.conteiner}>
+              <Text style={styles.symbol}>ДЕНЬ РОЖДЕНИЯ</Text>
+              <DatePicker
+                date={dateBirth}
+                mode="date"
+                format="DD-MM-YYYY"
+                minDate="01-05-1900"
+                maxDate={new Date()}
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                androidMode="spinner"
+                showIcon={false}
+                allowFontScaling={true}
 
-              style={{
+                style={{
 
-              }}
-              customStyles={{
-                dateText: {
-                  fontFamily: 'Montserrat-Light',
-                  fontSize: 18,
-                  color: '#e6e4e2'
-                },
-                dateIcon: {
-                  left: 0,
-                  top: 0,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  borderWidth: 0,
-                  marginEnd: 1,
-                  alignItems: 'flex-end',
+                }}
+                customStyles={{
+                  dateText: {
+                    fontFamily: 'Montserrat-Light',
+                    fontSize: 18,
+                    color: '#e6e4e2'
+                  },
+                  dateIcon: {
+                    left: 0,
+                    top: 0,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    borderWidth: 0,
+                    marginEnd: 1,
+                    alignItems: 'flex-end',
 
-                },
-              }}
-              onDateChange={async (dateStr, date) => {
-                setDateBirth(date)
-                setAnimation(true)
-                setAnimationLove(true)
-              }}
-            >
+                  },
 
-            </DatePicker>
-          </View>
+                }}
+                onDateChange={async (dateStr, date) => {
+                  setDateBirth(date)
+                  setAnimation(true)
+                  setAnimationLove(true)
+                }}
+              >
+
+              </DatePicker>
+            </View>
           </View>
           <View style={styles.carousel}>
             <CarouselHoroscope
@@ -445,7 +456,11 @@ const styles = StyleSheet.create({
     margin: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
+    //backgroundColor: 'transparent'
+    //backgroundColor: 'translucent',
+    //backfaceVisibility: 'visible'
+
   },
   conteiner: {
     padding: 1,
