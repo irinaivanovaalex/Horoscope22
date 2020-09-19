@@ -18,8 +18,8 @@ export type EntriesType = {
   id: string;
   description: string | Promise<String>;
   date: string;
-  subtitle: string;
-  illustration: string;
+  subtitle?: string;
+  illustration?: string;
 }
 
 interface ProfileScreenProps {
@@ -75,6 +75,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
   const [animationLoad, setAnimation] = useState(false);
   const [animationLoadLove, setAnimationLove] = useState(false);
+  const [animationLoadCareer, setAnimationCareer] = useState(false);
   const [dateBirth, setDateBirth] = useState<Date>()
   const [position, setposition] = useState({});
 
@@ -91,7 +92,23 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
     go()
   }, [zodiac, dateBirth])
 
-
+  const [entriesCareer, setEntriesCareer] = useState<EntriesType[]>([
+    {
+      id: '7',
+      description: '',
+      date: moment().add(0, 'day').format('LL').toString()
+    },
+    {
+      id: '8',
+      description: '',
+      date: moment().add(0, 'day').format('LL').toString()
+    },
+    {
+      id: '9',
+      description: '',
+      date: moment().add(0, 'day').format('LL').toString()
+    }
+  ]);
   const [entries, setEntries] = useState<EntriesType[]>([
     {
       id: '1',
@@ -148,8 +165,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
       setAnimation(true)
       setAnimationLove(true)
       const zodiacParametr = getDataZodiac()
-      
-      async function fetchHoroscope(title: string, setAnimated: (isEnabled: React.SetStateAction<boolean>)=>void,entriesItem: EntriesType[],setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>)=>void) {
+
+      async function fetchHoroscope(title: string, setAnimated: (isEnabled: React.SetStateAction<boolean>) => void, entriesItem: EntriesType[], setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>) => void) {
         const horoscopes = [
           await fetchItem(await zodiacParametr, title, 'yesterday'),
           await fetchItem(await zodiacParametr, title, ''),
@@ -168,8 +185,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
       }
       fetchHoroscope('/', setAnimation, entries, setEntries)
       fetchHoroscope('/erotic/', setAnimationLove, entriesLove, setEntriesLove)
+      fetchHoroscope('/career/', setAnimationCareer,entriesCareer, setEntriesCareer)
 
-      
 
     } else {
       async function go() {
@@ -262,8 +279,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               })
             },],
 
-            // translateX: orientation[0] * 10,
-            // translateY: -100 - (orientation[1] * 10),
+
           }}>
             <Image
               source={require('../component/space3.jpg')}
@@ -307,7 +323,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           showsVerticalScrollIndicator={false}
           bouncesZoom={true}
           style={{}}
-        //stickyHeaderIndices={[0]}
+
         >
 
           <View style={styles.conteinerTopBar}>
@@ -380,6 +396,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               description={'Романтичный гороскоп на 3 дня'}
               entriesCarousel={entriesLove}
               animationLoad={animationLoad}
+            />
+            <CarouselHoroscope
+              description={'Финансовый гороскоп на 3 дня'}
+              entriesCarousel={entriesCareer}
+              animationLoad={animationLoadCareer}
             />
           </View>
 
