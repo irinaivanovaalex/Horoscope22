@@ -12,6 +12,7 @@ import cheerio from 'react-native-cheerio'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CarouselHoroscope } from './CarouselHoroscope'
 import { accelerometer, setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
+import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
 
 
 export type EntriesType = {
@@ -223,16 +224,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
     ).start()
   }
 
-  useEffect(() => {
-    const subscription = accelerometer.subscribe(({ x, y, z, }) => {
-      animatedX.setValue(x)
-      animatedY.setValue(y)
-      animatedZ.setValue(z)
-      decayX(x)
-      decayY(y)
-      console.log(JSON.stringify({ x, y, z, }, null, '  '))
-    })
-  }, [])
+  // useEffect(() => {
+  //   const subscription = accelerometer.subscribe(({ x, y, z, }) => {
+  //     animatedX.setValue(x)
+  //     animatedY.setValue(y)
+  //     animatedZ.setValue(z)
+  //     decayX(x)
+  //     decayY(y)
+  //     console.log(JSON.stringify({ x, y, z, }, null, '  '))
+  //   })
+  // }, [])
 
 
   return (
@@ -402,6 +403,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               entriesCarousel={entriesCareer}
               animationLoad={animationLoadCareer}
             />
+            <CarouselHoroscopeCompatibility/>
           </View>
 
         </KeyboardAwareScrollView>

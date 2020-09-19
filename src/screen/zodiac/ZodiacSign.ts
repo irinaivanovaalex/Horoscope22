@@ -20,7 +20,7 @@ const strings = {
 export type ZodiacSign = {
     start: [number, number]
     end: [number, number]
-    emoji: ()=>any
+    emoji: () => any
     title: string
     name: ZodiacName
 }
@@ -33,7 +33,7 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
         title: strings.zodiac.capricorn,
         start: [1, 1],
         end: [1, 19],
-        emoji:  require('../../component/capricorn.png'),
+        emoji: require('../../component/capricorn.png'),
     },
 
     AQUARIUS: {
@@ -220,6 +220,12 @@ export type ZodiacName =
     | 'sagittarius'
     | 'capricorn'
 
+export function getZodiacEmoji(name: ZodiacName): ZodiacSign | undefined {
+    return Object.values(ZodiacSigns).find(zodiac => {
+        return zodiac.name===name 
+
+    })
+}
 
 export function getZodiacSign(day: number, month: number): ZodiacSign | undefined {
     return Object.values(ZodiacSigns).find(zodiac => {
