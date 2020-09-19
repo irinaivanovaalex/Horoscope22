@@ -58,16 +58,10 @@ const getDataZodiac = async () => {
   return value
 }
 
-export const fetchItem = async (zodiac: string, day: string) => {
-  const result: string = await parseGoroscope(zodiac, day)
+export const fetchItem = async (zodiac: string, title: string, day: string) => {
+  const result: string = await parseHoroscope(zodiac, title, day)
   console.warn('hj', result)
   return result
-}
-
-export const fetchItemErotic = async (zodiac: string, day: string) => {
-  const resultErotic: string = await parseGoroscopeErotic(zodiac, day)
-  console.warn('hj', resultErotic)
-  return resultErotic
 }
 
 setUpdateIntervalForType(SensorTypes.accelerometer, 32)
@@ -83,7 +77,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   const [animationLoadLove, setAnimationLove] = useState(false);
   const [dateBirth, setDateBirth] = useState<Date>()
   const [position, setposition] = useState({});
-  // const [orientation, setOrientation] = useState([0, 0, 0])
 
   const [zodiac, setZodiac] = useState(getZodiacSign(new Date().getDate(), new Date().getMonth() + 1)?.name)
 
@@ -97,6 +90,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
     }
     go()
   }, [zodiac, dateBirth])
+
+
   const [entries, setEntries] = useState<EntriesType[]>([
     {
       id: '1',
@@ -153,15 +148,15 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
       setAnimation(true)
       setAnimationLove(true)
       const zodiacParametr = getDataZodiac()
-
-      async function fetchHoroscopeIndex() {
+      
+      async function fetchHoroscope(title: string, setAnimated: (isEnabled: React.SetStateAction<boolean>)=>void,entriesItem: EntriesType[],setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>)=>void) {
         const horoscopes = [
-          await fetchItem(await zodiacParametr, 'yesterday'),
-          await fetchItem(await zodiacParametr, ''),
-          await fetchItem(await zodiacParametr, 'tomorrow')
+          await fetchItem(await zodiacParametr, title, 'yesterday'),
+          await fetchItem(await zodiacParametr, title, ''),
+          await fetchItem(await zodiacParametr, title, 'tomorrow')
         ]
-        setAnimation(false)
-        const dateHoroscope = entries.map((item, index) => {
+        setAnimated(false)
+        const dateHoroscope = entriesItem.map((item, index) => {
           return {
             ...item,
             description: horoscopes[index],
@@ -169,29 +164,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           }
 
         })
-
-        setEntries(dateHoroscope)
-
+        setEntriesItem(dateHoroscope)
       }
-      fetchHoroscopeIndex()
-      async function fetchHoroscopeIndexLove() {
-        const horoscopesErotic = [
-          await fetchItemErotic(await zodiacParametr, 'yesterday'),
-          await fetchItemErotic(await zodiacParametr, ''),
-          await fetchItemErotic(await zodiacParametr, 'tomorrow')
-        ]
-        setAnimationLove(false)
-        const dateHoroscopeLove = entriesLove.map((item, index) => {
-          return {
-            ...item,
-            description: horoscopesErotic[index],
+      fetchHoroscope('/', setAnimation, entries, setEntries)
+      fetchHoroscope('/erotic/', setAnimationLove, entriesLove, setEntriesLove)
 
-          }
-        })
-
-        setEntriesLove(dateHoroscopeLove)
-      }
-      fetchHoroscopeIndexLove()
+      
 
     } else {
       async function go() {
@@ -329,7 +307,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           showsVerticalScrollIndicator={false}
           bouncesZoom={true}
           style={{}}
-          //stickyHeaderIndices={[0]}
+        //stickyHeaderIndices={[0]}
         >
 
           <View style={styles.conteinerTopBar}>
@@ -411,18 +389,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
   )
 }
-export async function parseGoroscope(zodiac: string, day: string) {
-  const url = "https://horoscopes.rambler.ru/" + zodiac + '/' + day
-  const response = await Axios.get(url)
-  const $ = cheerio.load(response.data)
-  const classItems = $(
-    '#app > main > div.content._3Hki > div > div > section > div._2eGr > div > div > span',
-  ).toArray()
-
-  return classItems[0].children[0].data
-}
-export async function parseGoroscopeErotic(zodiac: string, day: string) {
-  const url = "https://horoscopes.rambler.ru/" + zodiac + '/erotic/' + day
+export async function parseHoroscope(zodiac: string, title: string, day: string) {
+  const url = "https://horoscopes.rambler.ru/" + zodiac + title + day
   const response = await Axios.get(url)
   const $ = cheerio.load(response.data)
   const classItems = $(
@@ -436,8 +404,6 @@ export async function parseGoroscopeErotic(zodiac: string, day: string) {
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    //paddingLeft: 15,
-    //paddingRight: 15,
   },
   conteinerTopBar: {
     paddingLeft: 15,
@@ -457,9 +423,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'space-between',
-    //backgroundColor: 'transparent'
-    //backgroundColor: 'translucent',
-    //backfaceVisibility: 'visible'
 
   },
   conteiner: {
