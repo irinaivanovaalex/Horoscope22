@@ -3,62 +3,62 @@ export function getZodiac(): TypeZodiac[] {
     return [{
         id: 'aries',
         title: 'aries',
-        getImage: () => require('./aries.png')
+        getImage: () => require('./image/aries.png')
     },
     {
         id: 'aquarius',
         title: 'aquarius',
-        getImage: () => require('./aquarius.png')
+        getImage: () => require('./image/aquarius.png')
     },
     {
         id: 'cancer',
         title: 'cancer',
-        getImage: () => require('./cancer.png')
+        getImage: () => require('./image/cancer.png')
     },
     {
         id: 'capricorn',
         title: 'capricorn',
-        getImage: () => require('./capricorn.png')
+        getImage: () => require('./image/capricorn.png')
     },
     {
         id: 'gemini',
         title: 'gemini',
-        getImage: () => require('./gemini.png')
+        getImage: () => require('./image/gemini.png')
     },
     {
         id: 'leo',
         title: 'leo',
-        getImage: () => require('./leo.png')
+        getImage: () => require('./image/leo.png')
     },
     {
         id: 'libra',
         title: 'libra',
-        getImage: () => require('./libra.png')
+        getImage: () => require('./image/libra.png')
     },
     {
         id: 'pisces',
         title: 'pisces',
-        getImage:() =>  require('./pisces.png')
+        getImage:() =>  require('./image/pisces.png')
     },
     {
         id: 'sagittarius',
         title: 'sagittarius',
-        getImage: () => require('./sagittarius.png')
+        getImage: () => require('./image/sagittarius.png')
     },
     {
         id: 'scorpio',
         title: 'scorpio',
-        getImage: () => require('./scorpio.png')
+        getImage: () => require('./image/scorpio.png')
     },
     {
         id: 'taurus',
         title: 'taurus',
-        getImage: () => require('./taurus.png')
+        getImage: () => require('./image/taurus.png')
     },
     {
         id: 'virgo',
         title: 'virgo',
-        getImage: () => require('./virgo.png')
+        getImage: () => require('./image/virgo.png')
     }
 
     ]

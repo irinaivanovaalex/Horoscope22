@@ -49,7 +49,7 @@ export async function parseH(zodiacWomen: string, zodiacMan: string) {
 }
 
 export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props => {
-    const { style, zodiacMan, zodiacWoman } = props
+    const { style, zodiacMan, zodiacWoman ,pressRender} = props
     const [dataParser, setDataParser] = useState([{
         title: '',
         text: '',
@@ -89,10 +89,11 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props
             </>
         )
     }
-    return <FlatList
+    return (
+    <FlatList
         renderItem={renderItem}
         data={dataParser}
-    />
+    />)
 
 }
 const styles = StyleSheet.create({
