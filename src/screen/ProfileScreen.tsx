@@ -65,11 +65,7 @@ export const fetchItem = async (zodiac: string, title: string, day: string) => {
   console.warn('hj', result)
   return result
 }
-export const fetchItemSovmestimost = async (zodiacWomen: string, zodiacMan: string) => {
-  const result: string = await parseHoroscopeSovmestimost(zodiacWomen, zodiacMan)
-  console.warn('hj', result)
-  return result
-}
+
 setUpdateIntervalForType(SensorTypes.accelerometer, 32)
 
 export function useAsync<T>(deferred: () => Promise<T>, deps: DependencyList) {
@@ -269,7 +265,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
         />
         <View style={styles.conteinerTopBar}>
           <Image
-            source={require('../component/space3.jpg')}
+            source={require('../component/image/space3.jpg')}
             blurRadius={0.1}
             style={{
               alignSelf: 'center',
@@ -301,7 +297,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
           }}>
             <Image
-              source={require('../component/space3.jpg')}
+              source={require('../component/image/space3.jpg')}
               blurRadius={0.2}
               style={{
                 alignSelf: 'center',
@@ -472,16 +468,6 @@ export async function parseHoroscope(zodiac: string, title: string, day: string)
     '#app > main > div.content._3Hki > div > div > section > div._2eGr > div > div > span',
   ).toArray()
 
-  return classItems[0].children[0].data
-}
-export async function parseHoroscopeSovmestimost(zodiacWomen: string, zodiacMan: string) {
-  const url = "https://horoscopes.rambler.ru/" + 'sovmestimost-znakov-zodiaka/zhenshhina-' + zodiacWomen + '-muzhchina-' + zodiacMan
-  const response = await Axios.get(url)
-  const $ = cheerio.load(response.data)
-  const classItems = $(
-    '#app > main > div.content._3Hki > div > div > section > div._3AUe > div> div._1z-8',
-  ).toArray()
-  console.log('', classItems[0].children[0].data)
   return classItems[0].children[0].data
 }
 

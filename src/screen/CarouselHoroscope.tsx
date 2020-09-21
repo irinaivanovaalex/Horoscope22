@@ -22,7 +22,7 @@ export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = props => {
         <View style={styles.item}>
 
           <ParallaxImage
-            source={require('../component/fon.png')}
+            source={require('../component/image/fon.png')}
             blurRadius={0.1}
             containerStyle={styles.imageContainer}
             style={styles.image}
