@@ -15,6 +15,20 @@ const strings = {
         sagittarius: 'Стрелец',
         capricorn: 'Козерог',
     },
+    zodiacLatin:{
+        aquarius: 'vodolej',
+        pisces: 'ryby',
+        aries: 'oven',
+        taurus: 'telec',
+        gemini: 'bliznecy',
+        cancer: 'rak',
+        leo: 'lev',
+        virgo: 'deva',
+        libra: 'vesy',
+        scorpio: 'skorpion',
+        sagittarius: 'strelec',
+        capricorn: 'kozerog',
+    }
 }
 
 export type ZodiacSign = {
@@ -22,6 +36,7 @@ export type ZodiacSign = {
     end: [number, number]
     emoji: () => any
     title: string
+    titleru :string
     name: ZodiacName
 }
 
@@ -31,6 +46,7 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     CARPICORN_START_YEAR: {
         name: 'capricorn',
         title: strings.zodiac.capricorn,
+        titleru: strings.zodiacLatin.capricorn,
         start: [1, 1],
         end: [1, 19],
         emoji: require('../../component/capricorn.png'),
@@ -39,13 +55,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     AQUARIUS: {
 
         start: [1, 20],
-
         end: [2, 18],
-
         emoji: require('../../component/aquarius.png'),
-
         title: strings.zodiac.aquarius,
-
+        titleru: strings.zodiacLatin.aquarius,
         name: 'aquarius',
 
     },
@@ -53,13 +66,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     PISCES: {
 
         title: strings.zodiac.pisces,
-
+        titleru: strings.zodiacLatin.pisces,
         start: [2, 19],
-
         end: [3, 20],
-
         emoji: require('../../component/pisces.png'),
-
         name: 'pisces',
 
     },
@@ -67,13 +77,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     ARIES: {
 
         name: 'aries',
-
         title: strings.zodiac.aries,
-
+        titleru: strings.zodiacLatin.aries,
         start: [3, 21],
-
         end: [4, 19],
-
         emoji: require('../../component/aries.png'),
 
     },
@@ -81,13 +88,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     TAURUS: {
 
         name: 'taurus',
-
         title: strings.zodiac.taurus,
-
+        titleru: strings.zodiacLatin.taurus,
         start: [4, 20],
-
         end: [5, 20],
-
         emoji: require('../../component/taurus.png'),
 
     },
@@ -95,13 +99,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     GEMINI: {
 
         name: 'gemini',
-
         title: strings.zodiac.gemini,
-
+        titleru: strings.zodiacLatin.gemini,
         start: [5, 21],
-
         end: [6, 20],
-
         emoji: require('../../component/gemini.png'),
 
     },
@@ -109,13 +110,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     CANCER: {
 
         name: 'cancer',
-
         title: strings.zodiac.cancer,
-
+        titleru: strings.zodiacLatin.cancer,
         start: [6, 21],
-
         end: [7, 22],
-
         emoji: require('../../component/cancer.png'),
 
     },
@@ -123,13 +121,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     LEO: {
 
         name: 'leo',
-
         title: strings.zodiac.leo,
-
+        titleru: strings.zodiacLatin.leo,
         start: [7, 23],
-
         end: [8, 22],
-
         emoji: require('../../component/leo.png'),
 
     },
@@ -137,13 +132,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     VIRGO: {
 
         name: 'virgo',
-
         title: strings.zodiac.virgo,
-
+        titleru: strings.zodiacLatin.virgo,
         start: [8, 23],
-
         end: [9, 22],
-
         emoji: require('../../component/virgo.png'),
 
     },
@@ -151,13 +143,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     LIBRA: {
 
         name: 'libra',
-
         title: strings.zodiac.libra,
-
+        titleru: strings.zodiacLatin.libra,
         start: [9, 23],
-
         end: [10, 22],
-
         emoji: require('../../component/libra.png'),
 
     },
@@ -165,13 +154,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     SCORPIO: {
 
         name: 'scorpio',
-
         title: strings.zodiac.scorpio,
-
+        titleru: strings.zodiacLatin.scorpio,
         start: [10, 23],
-
         end: [11, 21],
-
         emoji: require('../../component/scorpio.png'),
 
     },
@@ -179,13 +165,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     SAGITTARIUS: {
 
         name: 'sagittarius',
-
         title: strings.zodiac.sagittarius,
-
+        titleru: strings.zodiacLatin.sagittarius,
         start: [11, 22],
-
         end: [12, 21],
-
         emoji: require('../../component/sagittarius.png'),
 
     },
@@ -193,13 +176,10 @@ export const ZodiacSigns: Record<string, ZodiacSign> = {
     CARPICORN_END_YEAR: {
 
         name: 'capricorn',
-
         title: strings.zodiac.capricorn,
-
+        titleru: strings.zodiacLatin.capricorn,
         start: [12, 22],
-
         end: [12, 31],
-
         emoji: require('../../component/capricorn.png'),
 
     },

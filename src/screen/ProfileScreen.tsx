@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect, SetStateAction, useMemo } from 'react'
-import { StyleProp, ViewStyle, View, StyleSheet, Platform, Text, Image, DatePickerAndroid, TextInput, StatusBar, FlatList, TextPropTypes, Button, Alert, ScrollView, AsyncStorage, ActivityIndicator, DeviceEventEmitter, Dimensions, Animated, PermissionsAndroid } from 'react-native'
+import React, { useState, useRef, useEffect, SetStateAction, useMemo, DependencyList } from 'react'
+import { StyleProp, ViewStyle, View, StyleSheet, Platform, Text, Image, DatePickerAndroid, TextInput, StatusBar, FlatList, TextPropTypes, Button, Alert, ScrollView, AsyncStorage, ActivityIndicator, DeviceEventEmitter, Dimensions, Animated, PermissionsAndroid, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import DatePicker from 'react-native-datepicker'
 import { screenWidth, GoroskopScreen, screenHeight } from './GoroskopScreen'
 import { getZodiac } from '../component/getZodiac'
-import { getZodiacSign } from './zodiac/ZodiacSign'
+import { getZodiacSign, ZodiacName, ZodiacSigns } from './zodiac/ZodiacSign'
 import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel'
 import moment from 'moment'
 import Axios from 'axios'
@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { CarouselHoroscope } from './CarouselHoroscope'
 import { accelerometer, setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
 import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
+import { FlatlistCompatibility } from '../component/FlatlistCompatibility'
 
 
 export type EntriesType = {
@@ -64,8 +65,21 @@ export const fetchItem = async (zodiac: string, title: string, day: string) => {
   console.warn('hj', result)
   return result
 }
-
+export const fetchItemSovmestimost = async (zodiacWomen: string, zodiacMan: string) => {
+  const result: string = await parseHoroscopeSovmestimost(zodiacWomen, zodiacMan)
+  console.warn('hj', result)
+  return result
+}
 setUpdateIntervalForType(SensorTypes.accelerometer, 32)
+
+export function useAsync<T>(deferred: () => Promise<T>, deps: DependencyList) {
+  useEffect(() => {
+    async function go() {
+      deferred()
+    }
+    go()
+  }, deps)
+}
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   const { style } = props
@@ -78,19 +92,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   const [animationLoadLove, setAnimationLove] = useState(false);
   const [animationLoadCareer, setAnimationCareer] = useState(false);
   const [dateBirth, setDateBirth] = useState<Date>()
-  const [position, setposition] = useState({});
+  const [descriptionSovmestimost, setDescriptionSovmestimost] = useState('');
 
   const [zodiac, setZodiac] = useState(getZodiacSign(new Date().getDate(), new Date().getMonth() + 1)?.name)
 
-  useEffect(() => {
-    async function go() {
-      const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
-      setZodiac(storedZodiac ? storedZodiac : 'leo')
-      console.log('zodiac: ', zodiac)
-      console.log('weig', screenWidth, screenHeight)
-      storeDataZodiac(storedZodiac ? storedZodiac : 'leo')
-    }
-    go()
+  useAsync(async () => {
+    const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
+    setZodiac(storedZodiac ? storedZodiac : 'leo')
+    console.log('zodiac: ', zodiac)
+    console.log('weig', screenWidth, screenHeight)
+    storeDataZodiac(storedZodiac ? storedZodiac : 'leo')
   }, [zodiac, dateBirth])
 
   const [entriesCareer, setEntriesCareer] = useState<EntriesType[]>([
@@ -132,7 +143,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
       subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
       illustration: 'https://cdni.rt.com/russian/images/2019.08/article/5d63aa84370f2c6e1d8b4589.jpg',
     }]);
-
   const [entriesLove, setEntriesLove] = useState<EntriesType[]>([
     {
       id: '4',
@@ -158,46 +168,46 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
   ]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (dateBirth) {
+  //   if (dateBirth) {
 
-      storeDataDate(dateBirth)
-      setAnimation(true)
-      setAnimationLove(true)
-      const zodiacParametr = getDataZodiac()
+  //     storeDataDate(dateBirth)
+  //     setAnimation(true)
+  //     setAnimationLove(true)
+  //     const zodiacParametr = getDataZodiac()
 
-      async function fetchHoroscope(title: string, setAnimated: (isEnabled: React.SetStateAction<boolean>) => void, entriesItem: EntriesType[], setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>) => void) {
-        const horoscopes = [
-          await fetchItem(await zodiacParametr, title, 'yesterday'),
-          await fetchItem(await zodiacParametr, title, ''),
-          await fetchItem(await zodiacParametr, title, 'tomorrow')
-        ]
-        setAnimated(false)
-        const dateHoroscope = entriesItem.map((item, index) => {
-          return {
-            ...item,
-            description: horoscopes[index],
+  //     async function fetchHoroscope(title: string, setAnimated: (isEnabled: React.SetStateAction<boolean>) => void, entriesItem: EntriesType[], setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>) => void) {
+  //       const horoscopes = [
+  //         await fetchItem(await zodiacParametr, title, 'yesterday'),
+  //         await fetchItem(await zodiacParametr, title, ''),
+  //         await fetchItem(await zodiacParametr, title, 'tomorrow')
+  //       ]
+  //       setAnimated(false)
+  //       const dateHoroscope = entriesItem.map((item, index) => {
+  //         return {
+  //           ...item,
+  //           description: horoscopes[index],
 
-          }
+  //         }
 
-        })
-        setEntriesItem(dateHoroscope)
-      }
-      fetchHoroscope('/', setAnimation, entries, setEntries)
-      fetchHoroscope('/erotic/', setAnimationLove, entriesLove, setEntriesLove)
-      fetchHoroscope('/career/', setAnimationCareer,entriesCareer, setEntriesCareer)
+  //       })
+  //       setEntriesItem(dateHoroscope)
+  //     }
+  //     fetchHoroscope('/', setAnimation, entries, setEntries)
+  //     fetchHoroscope('/erotic/', setAnimationLove, entriesLove, setEntriesLove)
+  //     fetchHoroscope('/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
 
 
-    } else {
-      async function go() {
-        const storedDate = await getDataDate()
-        setDateBirth(storedDate)
+  //   } else {
+  //     async function go() {
+  //       const storedDate = await getDataDate()
+  //       setDateBirth(storedDate)
 
-      }
-      go()
-    }
-  }, [dateBirth])
+  //     }
+  //     go()
+  //   }
+  // }, [dateBirth])
 
   const animatedX = useMemo(() => new Animated.Value(0), [])
   const animatedY = useMemo(() => new Animated.Value(0), [])
@@ -235,6 +245,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   //   })
   // }, [])
 
+  const [selectedWoman, setWomanZodiac] = useState<ZodiacName>()
+  const [selectedMan, setManZodiac] = useState<ZodiacName>()
+  const [isVisible, setVisible] = useState(false)
+
+  useEffect(() => {
+    setManZodiac('gemini')
+    setWomanZodiac('gemini')
+  }, [])
 
   return (
     <>
@@ -323,7 +341,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
           showsVerticalScrollIndicator={false}
           bouncesZoom={true}
-          style={{}}
+          style={{
+            //paddingBottom: 30,
+            paddingBottom: 15,
+          }}
 
         >
 
@@ -403,8 +424,39 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               entriesCarousel={entriesCareer}
               animationLoad={animationLoadCareer}
             />
-            <CarouselHoroscopeCompatibility/>
+
           </View>
+          <Text style={styles.textTitle}>Совместимость</Text>
+          <View style={styles.carousel}>
+            <CarouselHoroscopeCompatibility onSelected={setManZodiac} title="Мужчина" type="man" />
+          </View>
+          <View style={styles.carousel}>
+            <CarouselHoroscopeCompatibility onSelected={setWomanZodiac} title="Женщина" type="woman" />
+          </View>
+          <TouchableOpacity style={{
+            marginVertical: 20,
+            alignContent: 'center',
+            alignSelf: 'center',
+          }}
+            onPress={async () => {
+              console.warn('selectedMan:', selectedMan)
+              console.warn('selectedWoman:', selectedWoman)
+              setVisible(true)
+              const fetchZodiacMan = Object.values(ZodiacSigns).find(it => it.name === selectedMan)
+              const fetchZodiacWoman = Object.values(ZodiacSigns).find(it => it.name === selectedWoman)
+              // setDescriptionSovmestimost(await fetchItemSovmestimost(fetchZodiacWoman?.titleru!, fetchZodiacMan?.titleru!))
+            }}>
+            <View style={styles.button}>
+              <Text style={styles.textTitleButton}>Узнать совместимость</Text>
+            </View>
+          </TouchableOpacity>
+          {isVisible ?
+            <View style={{
+              alignSelf: 'center',
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}
+            ><FlatlistCompatibility zodiacMan='rak' zodiacWoman='rak' /></View> : <></>}
 
         </KeyboardAwareScrollView>
       </LinearGradient>
@@ -422,11 +474,29 @@ export async function parseHoroscope(zodiac: string, title: string, day: string)
 
   return classItems[0].children[0].data
 }
+export async function parseHoroscopeSovmestimost(zodiacWomen: string, zodiacMan: string) {
+  const url = "https://horoscopes.rambler.ru/" + 'sovmestimost-znakov-zodiaka/zhenshhina-' + zodiacWomen + '-muzhchina-' + zodiacMan
+  const response = await Axios.get(url)
+  const $ = cheerio.load(response.data)
+  const classItems = $(
+    '#app > main > div.content._3Hki > div > div > section > div._3AUe > div> div._1z-8',
+  ).toArray()
+  console.log('', classItems[0].children[0].data)
+  return classItems[0].children[0].data
+}
 
 
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
+  },
+  textTitle: {
+    fontSize: 15,
+    fontFamily: 'Montserrat-Light',
+    color: '#e6e4e2',
+    paddingBottom: 10,
+    textAlign: 'center',
+    textTransform: 'uppercase',
   },
   conteinerTopBar: {
     paddingLeft: 15,
@@ -502,6 +572,45 @@ const styles = StyleSheet.create({
   carousel: {
     marginTop: 20,
     flexDirection: 'column',
+
+  },
+  button: {
+    width: screenWidth - 100,
+    height: screenWidth / 7,
+    backgroundColor: 'rgba(230, 228, 226, 0.25)',
+    borderRadius: 10,
+    marginHorizontal: 15,
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+
+  },
+  textTitleButton: {
+    fontSize: 15,
+    fontFamily: 'Montserrat-Light',
+    color: '#e6e4e2',
+    //paddingBottom: 10,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+
+  },
+  textDescription: {
+    fontSize: 14,
+    fontFamily: 'Montserrat-Light',
+    color: '#e6e4e2',
+    padding: 20,
+    textAlign: 'justify',
+  },
+  conteinerSovmestimost: {
+    padding: 1,
+    paddingBottom: 15,
+    marginHorizontal: 15,
+    marginBottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
+    backgroundColor: 'rgba(230, 228, 226, 0.2)',
+    borderRadius: 10,
   },
 })
 
