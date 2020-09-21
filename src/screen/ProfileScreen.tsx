@@ -456,7 +456,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               alignContent: 'center',
               justifyContent: 'center',
             }}
-            ><FlatlistCompatibility zodiacMan='rak' zodiacWoman='rak' /></View> : <></>}
+            ><FlatlistCompatibility zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!} zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} /></View> : <></>}
 
         </KeyboardAwareScrollView>
       </LinearGradient>
