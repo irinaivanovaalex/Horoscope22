@@ -187,7 +187,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               }]
             }}
           />
-          {/* <AnimatedView /> */}
+          <AnimatedView />
 
           <View style={styles.conteinerMain}>
             <View style={styles.textContainer}>
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
 
       width: screenWidth - 100,
       height: screenWidth / 7,
-      backgroundColor: 'rgba(255, 81, 72, 0.25)',
+      backgroundColor: 'rgba(246, 125, 249, 0.3)',
       borderRadius: 10,
       marginHorizontal: 15,
       alignItems: 'center',
