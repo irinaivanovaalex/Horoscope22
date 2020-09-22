@@ -9,7 +9,7 @@ import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel'
 import moment from 'moment'
 import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView, KeyboardAwareScrollViewProps } from 'react-native-keyboard-aware-scroll-view'
 import { CarouselHoroscope } from './CarouselHoroscope'
 import { accelerometer, setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
 import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
@@ -59,6 +59,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   const [selectedMan, setManZodiac] = useState<ZodiacName>()
   const [isVisible, setVisible] = useState(false)
   const [isPress, setPress] = useState(false)
+  const scrollRef = useRef<KeyboardAwareScrollView>(null)
 
   const [entriesCareer, setEntriesCareer] = useState<EntriesType[]>([
     {
@@ -213,6 +214,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
         </View>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
+          ref={scrollRef}
           bouncesZoom={true}
           style={{
             paddingBottom: 15,
@@ -308,15 +310,21 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
             alignSelf: 'center',
           }}
             onPress={async () => {
+
               console.warn('selectedMan:', selectedMan)
               console.warn('selectedWoman:', selectedWoman)
-              setVisible(true)
-              setPress(false)
+              isVisible ? setVisible(false) : setVisible(true)
 
             }}>
-            <View style={styles.button}>
-              <Text style={styles.textTitleButton}>Узнать совместимость</Text>
-            </View>
+  
+              {isVisible ?
+                <View style={styles.buttonPress}>
+                  <Text style={styles.textTitleButton}>Очистить совместимость</Text>
+                </View>
+                : <View style={styles.button}>
+                  <Text style={styles.textTitleButton}>Узнать совместимость</Text>
+                </View>}
+
           </TouchableOpacity>
           {isVisible ?
             (<>
@@ -325,7 +333,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
                 alignContent: 'center',
                 justifyContent: 'center',
               }}>
-                <FlatlistCompatibility zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!} zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
+                <FlatlistCompatibility scrollRef={scrollRef} zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!} zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
               </View>
 
             </>) : <></>}
@@ -444,6 +452,18 @@ const styles = StyleSheet.create({
     //paddingBottom: 10,
     textAlign: 'center',
     textTransform: 'uppercase',
+
+  },
+  buttonPress: {
+
+      width: screenWidth - 100,
+      height: screenWidth / 7,
+      backgroundColor: 'rgba(255, 81, 72, 0.25)',
+      borderRadius: 10,
+      marginHorizontal: 15,
+      alignItems: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
 
   },
   textDescription: {

@@ -1,14 +1,16 @@
 import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
-import React, { useEffect, useState } from 'react'
-import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList } from 'react-native'
+import React, { RefObject, useEffect, useState } from 'react'
+import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
 import { screenWidth } from '../screen/GoroskopScreen'
 import { ZodiacName } from '../screen/zodiac/ZodiacSign'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 interface FlatlistCompatibilityProps {
     style?: StyleProp<ViewStyle>
     zodiacMan: string
     zodiacWoman: string
+    scrollRef: RefObject<KeyboardAwareScrollView>
 }
 type ParserComp = {
     title: string,
@@ -28,10 +30,6 @@ export async function parseH(zodiacWomen: string, zodiacMan: string) {
             text: classItems[0].children[0].children[2].children[0].data || '',
         },
         {
-            title: classItems[0].children[1].children[3].children[0].data || '',
-            text: classItems[0].children[1].children[4].children[0].data || '',
-        },
-        {
             title: classItems[0].children[2].children[1].children[0].data || '',
             text: classItems[0].children[2].children[2].children[0].data || '',
         },
@@ -49,12 +47,10 @@ export async function parseH(zodiacWomen: string, zodiacMan: string) {
 }
 
 export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props => {
-    const { style, zodiacMan, zodiacWoman ,pressRender} = props
+    const { style, zodiacMan, zodiacWoman, scrollRef } = props
+    const [isPress, setPress] = useState(Boolean)
+
     const [dataParser, setDataParser] = useState([{
-        title: '',
-        text: '',
-    },
-    {
         title: '',
         text: '',
     },
@@ -73,27 +69,39 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props
     useEffect(() => {
         async function go() {
             setDataParser(await parseH(zodiacWoman, zodiacMan))
+            setPress(false)
         }
         go()
+        
     }, [])
 
     const renderItem = ({ item }: any) => {
+        scrollRef.current?.scrollToEnd(true)
         return (
             <>
                 <View style={styles.flatView}>
-                    <View style={styles.flatViewTitle}>
-                        <Text style={styles.flatTitle}>{item.title}</Text>
-                    </View>
-                    <Text style={styles.flatText}>{item.text}</Text>
+                    <TouchableOpacity
+                        onPress={async () => {
+                            isPress? setPress(false) : setPress(true)
+                        }}
+                    >
+                                <View style={styles.flatViewTitle}>
+                                    <Text style={styles.flatTitle}>{item.title}</Text>
+                                </View>
+                    </TouchableOpacity>
+                    {isPress? 
+                    <Text style={styles.flatText}>{item.text}</Text> 
+                    : <></>
+                }
                 </View>
             </>
         )
     }
     return (
-    <FlatList
-        renderItem={renderItem}
-        data={dataParser}
-    />)
+        <FlatList
+            renderItem={renderItem}
+            data={dataParser}
+        />)
 
 }
 const styles = StyleSheet.create({
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(230, 228, 226, 0.25)',
         borderRadius: 10,
         marginHorizontal: 15,
-        margin:5,
+        margin: 5,
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
@@ -127,7 +135,6 @@ const styles = StyleSheet.create({
     },
     flatViewTitle: {
         width: screenWidth - (screenWidth / 10),
-        //height: screenWidth / 7,
         backgroundColor: 'rgba(230, 228, 226, 0.5)',
         borderRadius: 10,
         marginHorizontal: 15,
