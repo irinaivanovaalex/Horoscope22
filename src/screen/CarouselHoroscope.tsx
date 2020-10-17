@@ -87,13 +87,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   carouselText: {
-    fontSize: 13,
+    fontSize: screenWidth? (screenWidth/33): 10,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
   },
   carouselTextTitle: {
-    fontSize: 14,
+    fontSize: screenWidth? (screenWidth/31) : 12,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     position: 'absolute',
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   textTitle: {
-    fontSize: 15,
+    fontSize: screenWidth? (screenWidth/27) : 12,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     paddingBottom: 10,
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   item: {
-    width: screenWidth - 100,
-    height: screenWidth - 100,
+    width: screenWidth? (screenWidth - 100) : 200,
+    height: screenWidth? screenWidth - 100: 300,
   },
   imageContainer: {
     flex: 1,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: (screenWidth - 70) / 3,
+    marginTop: screenWidth ? (screenWidth - 70) / 3 : 100,
   },
   image: {
     opacity: 0.1,

@@ -74,14 +74,14 @@ const zodiacStyleImage : {[key in HoroscopeType]: StyleProp<ViewStyle | ImageSty
 }
 const zodiacStyleTextSing: {[key in HoroscopeType]: StyleProp<ViewStyle | TextStyle>} ={
   man:{
-    fontSize: 13,
+    fontSize: screenWidth/42,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     textAlign: 'center',
   },
   woman: {
-    fontSize: 13,
+    fontSize: screenWidth/35,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: 'rgba(246, 125, 249, 0.86)',

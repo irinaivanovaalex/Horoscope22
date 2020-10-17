@@ -1,22 +1,20 @@
-import React, { useState, useRef, useEffect, SetStateAction, useMemo, DependencyList } from 'react'
-import { StyleProp, ViewStyle, View, StyleSheet, Platform, Text, Image, DatePickerAndroid, TextInput, StatusBar, FlatList, TextPropTypes, Button, Alert, ScrollView, AsyncStorage, ActivityIndicator, DeviceEventEmitter, Dimensions, Animated, PermissionsAndroid, TouchableOpacity } from 'react-native'
+import React, { useState, useRef, useEffect, DependencyList } from 'react'
+import { StyleProp, ViewStyle, View, StyleSheet, Platform, Text, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import DatePicker from 'react-native-datepicker'
-import { screenWidth, GoroskopScreen, screenHeight } from './GoroskopScreen'
-import { getZodiac } from '../component/getZodiac'
+import { screenWidth, screenHeight } from './GoroskopScreen'
 import { getZodiacSign, ZodiacName, ZodiacSigns } from './zodiac/ZodiacSign'
-import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel'
 import moment from 'moment'
-import Axios from 'axios'
-import cheerio from 'react-native-cheerio'
-import { KeyboardAwareScrollView, KeyboardAwareScrollViewProps } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CarouselHoroscope } from './CarouselHoroscope'
-import { accelerometer, setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
-import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
-import { FlatlistCompatibility } from '../component/FlatlistCompatibility'
+import { setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
 import { fetchHoroscope } from '../component/fetchHoroscope'
 import { AnimatedView } from '../component/AnimatedView'
 import { getDataDate, getDataName, storeDataDate, storeDataName } from '../component/Store'
+import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
+import { FlatlistCompatibility } from '../component/FlatlistCompatibility'
+import { strings } from '../component/Strings'
+
 
 
 export type EntriesType = {
@@ -136,18 +134,18 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
       async function go() {
         const zodiacParametr = storedZodiac
+        fetchHoroscope(zodiacParametr!, '/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
         fetchHoroscope(zodiacParametr!, '/', setAnimation, entries, setEntries)
         fetchHoroscope(zodiacParametr!, '/erotic/', setAnimationLove, entriesLove, setEntriesLove)
-        fetchHoroscope(zodiacParametr!, '/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
       }
       go()
 
     } else {
-      async function go() {
+      async function go2() {
         const storedDate = await getDataDate()
         setDateBirth(storedDate)
       }
-      go()
+      go2()
     }
   }, [dateBirth])
 
@@ -156,6 +154,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   useEffect(() => {
     setManZodiac('gemini')
     setWomanZodiac('gemini')
+    console.log('ScreenWidth: ', screenWidth, 'screenHeight:', screenHeight)
   }, [])
 
   return (
@@ -187,11 +186,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               }]
             }}
           />
-          <AnimatedView />
+          {/* <AnimatedView /> */}
 
           <View style={styles.conteinerMain}>
+
             <View style={styles.textContainer}>
-              <Text style={styles.description} numberOfLines={2}>ГОРОСКОП</Text>
+              <Text style={styles.description} numberOfLines={2}>{strings.horoscope}</Text>
             </View>
 
             <View style={styles.topBar} >
@@ -222,7 +222,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
         >
           <View style={styles.conteinerTopBar}>
             <View style={styles.conteiner}>
-              <Text style={styles.symbol}>ИМЯ</Text>
+              <Text style={styles.symbol}>{strings.name}</Text>
               <TextInput
                 style={styles.textInput}
                 value={value}
@@ -235,7 +235,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               />
             </View>
             <View style={styles.conteiner}>
-              <Text style={styles.symbol}>ДЕНЬ РОЖДЕНИЯ</Text>
+              <Text style={styles.symbol}>{strings.birhday}</Text>
               <DatePicker
                 date={dateBirth}
                 mode="date"
@@ -281,28 +281,29 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           </View>
           <View style={styles.carousel}>
             <CarouselHoroscope
-              description={'Ваш гороскоп на 3 дня'}
+              description={strings.finance}
+              entriesCarousel={entriesCareer}
+              animationLoad={animationLoadCareer}
+            />
+            <CarouselHoroscope
+              description={strings.standart}
               entriesCarousel={entries}
               animationLoad={animationLoad}
             />
             <CarouselHoroscope
-              description={'Романтичный гороскоп на 3 дня'}
+              description={strings.romantic}
               entriesCarousel={entriesLove}
               animationLoad={animationLoad}
             />
-            <CarouselHoroscope
-              description={'Финансовый гороскоп на 3 дня'}
-              entriesCarousel={entriesCareer}
-              animationLoad={animationLoadCareer}
-            />
+
 
           </View>
-          <Text style={styles.textTitle}>Совместимость</Text>
+          <Text style={styles.textTitle}>{strings.compability}</Text>
           <View style={styles.carousel}>
-            <CarouselHoroscopeCompatibility onSelected={setManZodiac} title="Мужчина" type="man" />
+            <CarouselHoroscopeCompatibility onSelected={setManZodiac} title={strings.man} type="man" />
           </View>
           <View style={styles.carousel}>
-            <CarouselHoroscopeCompatibility onSelected={setWomanZodiac} title="Женщина" type="woman" />
+            <CarouselHoroscopeCompatibility onSelected={setWomanZodiac} title={strings.woman} type="woman" />
           </View>
           <TouchableOpacity style={{
             marginVertical: 20,
@@ -316,14 +317,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
               isVisible ? setVisible(false) : setVisible(true)
 
             }}>
-  
-              {isVisible ?
-                <View style={styles.buttonPress}>
-                  <Text style={styles.textTitleButton}>Очистить совместимость</Text>
-                </View>
-                : <View style={styles.button}>
-                  <Text style={styles.textTitleButton}>Узнать совместимость</Text>
-                </View>}
+
+            {isVisible ?
+              <View style={styles.buttonPress}>
+                <Text style={styles.textTitleButton}>{strings.removeCompability}</Text>
+              </View>
+              : <View style={styles.button}>
+                <Text style={styles.textTitleButton}>{strings.successCompability}</Text>
+              </View>}
 
           </TouchableOpacity>
           {isVisible ?
@@ -333,7 +334,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
                 alignContent: 'center',
                 justifyContent: 'center',
               }}>
-                <FlatlistCompatibility scrollRef={scrollRef} zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!} zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
+                <FlatlistCompatibility
+                  scrollRef={scrollRef}
+                  zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!}
+                  zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
               </View>
 
             </>) : <></>}
@@ -456,14 +460,14 @@ const styles = StyleSheet.create({
   },
   buttonPress: {
 
-      width: screenWidth - 100,
-      height: screenWidth / 7,
-      backgroundColor: 'rgba(246, 125, 249, 0.3)',
-      borderRadius: 10,
-      marginHorizontal: 15,
-      alignItems: 'center',
-      alignContent: 'center',
-      justifyContent: 'center',
+    width: screenWidth - 100,
+    height: screenWidth / 7,
+    backgroundColor: 'rgba(246, 125, 249, 0.3)',
+    borderRadius: 10,
+    marginHorizontal: 15,
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
 
   },
   textDescription: {
