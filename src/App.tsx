@@ -9,73 +9,28 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 import { GoroskopScreen } from './screen/GoroskopScreen';
 import { ProfileScreen } from './screen/ProfileScreen';
+import { createMyNavigator } from './component/navigation/CustomBar';
+import { observer } from 'mobx-react';
+import { CompatibilityScreen } from './screen/CompatibilityScreen';
 
+const My = createMyNavigator()
 
-declare const global: {HermesInternal: null | {}};
-
-const App = () => {
+const App = observer(() => {
   return (
     <>
-      <ProfileScreen/>
+      <NavigationContainer>
+        <My.Navigator colorActive="#000" colorInactive='grey' animationbutton='bottom' speed={100}>
+          <My.Screen name='grid' component={ProfileScreen} />
+          <My.Screen name='heart' component={CompatibilityScreen} />
+        </My.Navigator>
+      </NavigationContainer>
     </>
   );
-};
+})
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;

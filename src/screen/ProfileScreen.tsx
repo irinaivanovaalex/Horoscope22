@@ -9,10 +9,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { CarouselHoroscope } from './CarouselHoroscope'
 import { setUpdateIntervalForType, SensorTypes } from "react-native-sensors"
 import { fetchHoroscope } from '../component/fetchHoroscope'
-import { AnimatedView } from '../component/AnimatedView'
+import { AnimatedView } from '../component/animatedComponent/AnimatedView'
 import { getDataDate, getDataName, storeDataDate, storeDataName } from '../component/Store'
 import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
-import { FlatlistCompatibility } from '../component/FlatlistCompatibility'
+import { FlatlistCompatibility } from '../component/compatibility/FlatlistCompatibility'
 import { strings } from '../component/Strings'
 
 
@@ -53,10 +53,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
   const [animationLoadLove, setAnimationLove] = useState(false);
   const [animationLoadCareer, setAnimationCareer] = useState(false);
   const [dateBirth, setDateBirth] = useState<Date>()
-  const [selectedWoman, setWomanZodiac] = useState<ZodiacName>()
-  const [selectedMan, setManZodiac] = useState<ZodiacName>()
-  const [isVisible, setVisible] = useState(false)
-  const [isPress, setPress] = useState(false)
   const scrollRef = useRef<KeyboardAwareScrollView>(null)
 
   const [entriesCareer, setEntriesCareer] = useState<EntriesType[]>([
@@ -123,39 +119,34 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
   ]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (dateBirth) {
+  //   if (dateBirth) {
 
-      storeDataDate(dateBirth)
-      setAnimation(true)
-      setAnimationLove(true)
-      const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
+  //     storeDataDate(dateBirth)
+  //     setAnimation(true)
+  //     setAnimationLove(true)
+  //     const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
 
-      async function go() {
-        const zodiacParametr = storedZodiac
-        fetchHoroscope(zodiacParametr!, '/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
-        fetchHoroscope(zodiacParametr!, '/', setAnimation, entries, setEntries)
-        fetchHoroscope(zodiacParametr!, '/erotic/', setAnimationLove, entriesLove, setEntriesLove)
-      }
-      go()
+  //     async function go() {
+  //       const zodiacParametr = storedZodiac
+  //       fetchHoroscope(zodiacParametr!, '/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
+  //       fetchHoroscope(zodiacParametr!, '/', setAnimation, entries, setEntries)
+  //       fetchHoroscope(zodiacParametr!, '/erotic/', setAnimationLove, entriesLove, setEntriesLove)
+  //     }
+  //     go()
 
-    } else {
-      async function go2() {
-        const storedDate = await getDataDate()
-        setDateBirth(storedDate)
-      }
-      go2()
-    }
-  }, [dateBirth])
+  //   } else {
+  //     async function go2() {
+  //       const storedDate = await getDataDate()
+  //       setDateBirth(storedDate)
+  //     }
+  //     go2()
+  //   }
+  // }, [dateBirth])
 
 
 
-  useEffect(() => {
-    setManZodiac('gemini')
-    setWomanZodiac('gemini')
-    console.log('ScreenWidth: ', screenWidth, 'screenHeight:', screenHeight)
-  }, [])
 
   return (
     <>
@@ -298,50 +289,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
 
           </View>
-          <Text style={styles.textTitle}>{strings.compability}</Text>
-          <View style={styles.carousel}>
-            <CarouselHoroscopeCompatibility onSelected={setManZodiac} title={strings.man} type="man" />
-          </View>
-          <View style={styles.carousel}>
-            <CarouselHoroscopeCompatibility onSelected={setWomanZodiac} title={strings.woman} type="woman" />
-          </View>
-          <TouchableOpacity style={{
-            marginVertical: 20,
-            alignContent: 'center',
-            alignSelf: 'center',
-          }}
-            onPress={async () => {
-
-              console.warn('selectedMan:', selectedMan)
-              console.warn('selectedWoman:', selectedWoman)
-              isVisible ? setVisible(false) : setVisible(true)
-
-            }}>
-
-            {isVisible ?
-              <View style={styles.buttonPress}>
-                <Text style={styles.textTitleButton}>{strings.removeCompability}</Text>
-              </View>
-              : <View style={styles.button}>
-                <Text style={styles.textTitleButton}>{strings.successCompability}</Text>
-              </View>}
-
-          </TouchableOpacity>
-          {isVisible ?
-            (<>
-              <View style={{
-                alignSelf: 'center',
-                alignContent: 'center',
-                justifyContent: 'center',
-              }}>
-                <FlatlistCompatibility
-                  scrollRef={scrollRef}
-                  zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!}
-                  zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
-              </View>
-
-            </>) : <></>}
-
         </KeyboardAwareScrollView>
       </LinearGradient>
     </>
@@ -456,18 +403,6 @@ const styles = StyleSheet.create({
     //paddingBottom: 10,
     textAlign: 'center',
     textTransform: 'uppercase',
-
-  },
-  buttonPress: {
-
-    width: screenWidth - 100,
-    height: screenWidth / 7,
-    backgroundColor: 'rgba(246, 125, 249, 0.3)',
-    borderRadius: 10,
-    marginHorizontal: 15,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
 
   },
   textDescription: {

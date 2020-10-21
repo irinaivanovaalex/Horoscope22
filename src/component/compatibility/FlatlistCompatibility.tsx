@@ -2,15 +2,15 @@ import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
 import React, { RefObject, useEffect, useState } from 'react'
 import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
-import { screenWidth } from '../screen/GoroskopScreen'
-import { ZodiacName } from '../screen/zodiac/ZodiacSign'
+import { screenWidth } from '../../screen/GoroskopScreen'
+import { ZodiacName } from '../../screen/zodiac/ZodiacSign'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 interface FlatlistCompatibilityProps {
     style?: StyleProp<ViewStyle>
     zodiacMan: string
     zodiacWoman: string
-    scrollRef: RefObject<KeyboardAwareScrollView>
+    //scrollRef: RefObject<KeyboardAwareScrollView>
 }
 type ParserComp = {
     title: string,
@@ -47,7 +47,7 @@ export async function parseH(zodiacWomen: string, zodiacMan: string) {
 }
 
 export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props => {
-    const { style, zodiacMan, zodiacWoman, scrollRef } = props
+    const { style, zodiacMan, zodiacWoman,  } = props
     const [isPress, setPress] = useState(Boolean)
 
     const [dataParser, setDataParser] = useState([{
@@ -76,7 +76,7 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props
     }, [])
 
     const renderItem = ({ item }: any) => {
-        scrollRef.current?.scrollToEnd(true)
+        // scrollRef.current?.scrollToEnd(true)
         return (
             <>
                 <View style={styles.flatView}>

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useState } from 'react'
 import { StyleProp, ViewStyle, View } from 'react-native'
-import { EntriesType } from '../screen/ProfileScreen';
+import { EntriesType } from '../../screen/ProfileScreen';
 
 interface EntriesComponentProps {
   style?: StyleProp<ViewStyle>
