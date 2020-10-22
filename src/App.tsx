@@ -23,7 +23,7 @@ const App = observer(() => {
   return (
     <>
       <NavigationContainer>
-        <My.Navigator colorActive="#000" colorInactive='grey' animationbutton='bottom' speed={100}>
+        <My.Navigator colorActive="white" colorInactive='white' animationbutton='top' speed={100}>
           <My.Screen name='grid' component={ProfileScreen} />
           <My.Screen name='heart' component={CompatibilityScreen} />
         </My.Navigator>

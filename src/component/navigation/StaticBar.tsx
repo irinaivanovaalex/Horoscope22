@@ -20,7 +20,10 @@ const { width: rem } = Dimensions.get("window");
 export const StaticBar: React.FC<StaticBarProps> = observer(props => {
     const { style, value, state, navigation, colorActive, colorInactive, animationbutton, speed } = props
     const [indexValue, setIndexValue] = useState(0)
-    const values: Animated.Value[] = useMemo(() => state.routeNames.map((key, index) => { return new Animated.Value(index === indexValue ? 1 : 0) }), [])
+    const values: Animated.Value[] = useMemo(() => state.routeNames.map(
+        (key, index) => {
+            return new Animated.Value(index === indexValue ? 1 : 0)
+        }), [])
     const translateYCustom = (animationbutton === 'top') ? -30 : 30
 
     const onPress = (index: number) => {
@@ -78,61 +81,61 @@ export const StaticBar: React.FC<StaticBarProps> = observer(props => {
                 }), [])
                 return (
                     <React.Fragment {...{ key }}>
-                        <TouchableWithoutFeedback
-                            key={route.key}
-                            onPress={() => {
-                                //onPress(key)
+                            <TouchableWithoutFeedback
+                                key={route.key}
+                                onPress={() => {
+                                    //onPress(key)
 
-                                const event = navigation.emit({
-                                    type: 'tabPress',
-                                    target: route.key,
-                                    data: {
-                                        isAlreadyFocused: route.key === state.routes[state.index].key,
-                                    },
-                                });
-                                if (!event.defaultPrevented) {
-                                    setIndexValue(key)
-
-                                    navigation.dispatch({
-                                        ...CommonActions.navigate(route.name),
-                                        //...TabActions.jumpTo(route.name),
-                                        target: state.key,
+                                    const event = navigation.emit({
+                                        type: 'tabPress',
+                                        target: route.key,
+                                        data: {
+                                            isAlreadyFocused: route.key === state.routes[state.index].key,
+                                        },
                                     });
-                                }
-                                console.log("render2")
+                                    if (!event.defaultPrevented) {
+                                        setIndexValue(key)
 
-                            }}
-                            style={{ flex: 1 }}
-                        >
-                            <Animated.View style={[
-                                styles.tab,
-                                { opacity },
-                            ]}>
-                                <Icon
-                                    name={route.name}
-                                    color={colorInactive ? colorInactive : 'gray'}
-                                    size={25} />
+                                        navigation.dispatch({
+                                            ...CommonActions.navigate(route.name),
+                                            //...TabActions.jumpTo(route.name),
+                                            target: state.key,
+                                        });
+                                    }
+                                    console.log("render2")
+
+                                }}
+                                style={{ flex: 1 }}
+                            >
+                                <Animated.View style={[
+                                    styles.tab,
+                                    { opacity },
+                                ]}>
+                                    <Icon
+                                        name={route.name}
+                                        color={colorInactive ? colorInactive : 'gray'}
+                                        size={25} />
+                                </Animated.View>
+                            </TouchableWithoutFeedback>
+                            <Animated.View style={{
+                                position: "absolute",
+                                top: -8,
+                                left: tabWidth * key,
+                                width: tabWidth,
+                                height: 64,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                opacity: opacity1,
+                                transform: [{ translateY }],
+                            }}>
+                                <View style={styles.activeIcon}>
+                                    <Icon
+                                        name={route.name}
+                                        color={colorActive ? colorActive : 'black'}
+                                        size={25} />
+                                </View>
                             </Animated.View>
-                        </TouchableWithoutFeedback>
-                        <Animated.View style={{
-                            position: "absolute",
-                            top: -8,
-                            left: tabWidth * key,
-                            width: tabWidth,
-                            height: 64,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            opacity: opacity1,
-                            transform: [{ translateY }],
-                        }}>
-                            <View style={styles.activeIcon}>
-                                <Icon
-                                    name={route.name}
-                                    color={colorActive ? colorActive : 'black'}
-                                    size={25} />
-                            </View>
-                        </Animated.View>
-
+                        
                     </React.Fragment>
                 )
             })}
@@ -141,15 +144,17 @@ export const StaticBar: React.FC<StaticBarProps> = observer(props => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
+
     },
     tab: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         height: 64,
+
     },
     activeIcon: {
-        backgroundColor: "white",
+        backgroundColor: "rgba(230, 228, 226, 0.9)",
         width: 40,
         height: 40,
         borderRadius: 20,

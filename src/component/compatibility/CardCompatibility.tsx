@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleProp, ViewStyle, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { StyleProp, ViewStyle, View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native'
 import { CarouselHoroscopeCompatibility } from '../../screen/CarouselHoroscopeCompatibility'
 import { ZodiacName, ZodiacSigns } from '../../screen/zodiac/ZodiacSign'
 import { strings } from '../Strings'
