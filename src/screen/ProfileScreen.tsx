@@ -48,7 +48,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
   const [value, onChangText] = useState('Your Name')
   useEffect(() => {
     getDataName().then(onChangText)
-    storeHoroscope.init()
   }, [])
   const scrollRef = useRef<KeyboardAwareScrollView>(null)
 

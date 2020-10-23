@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { GoroskopScreen } from './screen/GoroskopScreen';
@@ -16,10 +16,14 @@ import { ProfileScreen } from './screen/ProfileScreen';
 import { createMyNavigator } from './component/navigation/CustomBar';
 import { observer } from 'mobx-react';
 import { CompatibilityScreen } from './screen/CompatibilityScreen';
+import { storeHoroscope } from './component/store/StoreHoroscope';
 
 const My = createMyNavigator()
 
 const App = observer(() => {
+  useEffect(() => {
+    storeHoroscope.init()
+  }, [])
   return (
     <>
       <NavigationContainer>
