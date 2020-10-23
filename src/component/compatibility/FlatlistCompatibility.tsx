@@ -1,10 +1,9 @@
 import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
-import React, { RefObject, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
 import { screenWidth } from '../../screen/GoroskopScreen'
-import { ZodiacName } from '../../screen/zodiac/ZodiacSign'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 interface FlatlistCompatibilityProps {
     style?: StyleProp<ViewStyle>

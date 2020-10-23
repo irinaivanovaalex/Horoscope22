@@ -17,8 +17,7 @@ import { strings } from '../component/Strings'
 import { storeHoroscope } from '../component/store/StoreHoroscope'
 import { observer } from 'mobx-react'
 import { entriesList } from '../component/store/StoreEntries'
-
-
+import { DatePickerHoroscope } from '../component/DatePicker/DatePickerHoroscope'
 
 export type EntriesType = {
   id: string;
@@ -131,45 +130,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
             </View>
             <View style={styles.conteiner}>
               <Text style={styles.symbol}>{strings.birhday}</Text>
-              <DatePicker
-                date={storeHoroscope.dateBirthday}
-                mode="date"
-                format="DD-MM-YYYY"
-                minDate="01-05-1900"
-                maxDate={new Date()}
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                androidMode="spinner"
-                showIcon={false}
-                allowFontScaling={true}
-
-                style={{
-
-                }}
-                customStyles={{
-                  dateText: {
-                    fontFamily: 'Montserrat-Light',
-                    fontSize: 18,
-                    color: '#e6e4e2'
-                  },
-                  dateIcon: {
-                    left: 0,
-                    top: 0,
-                    marginLeft: 0,
-                  },
-                  dateInput: {
-                    borderWidth: 0,
-                    marginEnd: 1,
-                    alignItems: 'flex-end',
-
-                  },
-
-                }}
-                onDateChange={async (dateStr, date) => {
-                  storeHoroscope.changeDateBirthday(date)
-                }}
-              >
-              </DatePicker>
+              <DatePickerHoroscope />
             </View>
           </View>
           <View style={styles.carousel}>

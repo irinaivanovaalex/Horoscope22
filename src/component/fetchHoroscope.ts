@@ -4,6 +4,7 @@ import cheerio from 'react-native-cheerio'
 import { ZodiacSigns, ZodiacName } from "../screen/zodiac/ZodiacSign"
 import { useColorScheme } from "react-native"
 import { entriesList } from "./store/StoreEntries"
+import { storeHoroscope } from "./store/StoreHoroscope"
 
 export async function parseHoroscope(zodiac: string, title: string, day: string) {
   const url = "https://horoscopes.rambler.ru/" + zodiac + title + day
@@ -42,7 +43,8 @@ export async function fetchHoroscope(zodiacParametr: string | ZodiacName, title:
     await fetchItem(zodiacParametr, title, ''),
     await fetchItem(zodiacParametr, title, 'tomorrow')
   ]
-  console.log('horoscopes =',horoscopes)
+  console.log('horoscopes =', horoscopes)
   await entriesList.changeEntries(type, horoscopes)
+  storeHoroscope.changeAnimation(type, false)
   console.warn('type', type, 'entriesListCareer = ', entriesList.entriesCareer, 'entriesList = ', entriesList.entries, 'entriesListLove = ', entriesList.entriesLove)
 }

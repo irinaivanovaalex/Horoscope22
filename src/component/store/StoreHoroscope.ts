@@ -2,6 +2,7 @@ import { action, makeObservable, observable } from "mobx";
 import { getZodiacSign, ZodiacName, ZodiacSign } from "../../screen/zodiac/ZodiacSign";
 import { fetchHoroscope } from "../fetchHoroscope";
 import { getDataDate, storeDataDate } from "../Store";
+import { entriesList } from "./StoreEntries";
 
 
 export class StoreHoroscope {
@@ -39,6 +40,7 @@ export class StoreHoroscope {
         } else this.animationLove = value
     }
     async fetchHoroscopeStore(name: ZodiacName) {
+        await entriesList.clearEntries()
         await fetchHoroscope(name, '/career/', 'finance')
         await fetchHoroscope(name, '/', 'standart')
         await fetchHoroscope(name, '/erotic/', 'love')

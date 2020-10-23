@@ -1,6 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
 import moment from "moment";
 import { acc } from "react-native-reanimated";
+import { storeHoroscope } from "./StoreHoroscope";
 
 
 export type EntriesType = {
@@ -86,6 +87,30 @@ export class Entries {
                 }
             })
         }
+    }
+    async clearEntries() {
+        this.entriesCareer = this.entriesCareer.map((item, index) => {
+            return {
+                ...item,
+                description: '',
+            }
+        })
+        storeHoroscope.changeAnimation('finance', true)
+        this.entries = this.entries.map((item, index) => {
+            return {
+                ...item,
+                description: '',
+            }
+        })
+        storeHoroscope.changeAnimation('standart', true)
+        this.entriesLove = this.entriesLove.map((item, index) => {
+            return {
+                ...item,
+                description: '',
+            }
+        })
+        storeHoroscope.changeAnimation('love', true)
+
     }
     constructor() {
         makeObservable(this, {
