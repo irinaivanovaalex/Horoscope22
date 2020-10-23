@@ -14,6 +14,9 @@ import { getDataDate, getDataName, storeDataDate, storeDataName } from '../compo
 import { CarouselHoroscopeCompatibility } from './CarouselHoroscopeCompatibility'
 import { FlatlistCompatibility } from '../component/compatibility/FlatlistCompatibility'
 import { strings } from '../component/Strings'
+import { storeHoroscope } from '../component/store/StoreHoroscope'
+import { observer } from 'mobx-react'
+import { entriesList } from '../component/store/StoreEntries'
 
 
 
@@ -32,121 +35,23 @@ interface ProfileScreenProps {
 
 setUpdateIntervalForType(SensorTypes.accelerometer, 32)
 
-export function useAsync<T>(deferred: () => Promise<T>, deps: DependencyList) {
-  useEffect(() => {
-    async function go() {
-      deferred()
-    }
-    go()
-  }, deps)
-}
+// export function useAsync<T>(deferred: () => Promise<T>, deps: DependencyList) {
+//   useEffect(() => {
+//     async function go() {
+//       deferred()
+//     }
+//     go()
+//   }, deps)
+// }
 
-export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
-  const { style } = props
+export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
+
   const [value, onChangText] = useState('Your Name')
   useEffect(() => {
     getDataName().then(onChangText)
+    storeHoroscope.init()
   }, [])
-
-
-  const [animationLoad, setAnimation] = useState(false);
-  const [animationLoadLove, setAnimationLove] = useState(false);
-  const [animationLoadCareer, setAnimationCareer] = useState(false);
-  const [dateBirth, setDateBirth] = useState<Date>()
   const scrollRef = useRef<KeyboardAwareScrollView>(null)
-
-  const [entriesCareer, setEntriesCareer] = useState<EntriesType[]>([
-    {
-      id: '7',
-      description: '',
-      date: moment().add(0, 'day').format('LL').toString()
-    },
-    {
-      id: '8',
-      description: '',
-      date: moment().add(0, 'day').format('LL').toString()
-    },
-    {
-      id: '9',
-      description: '',
-      date: moment().add(0, 'day').format('LL').toString()
-    }
-  ]);
-  const [entries, setEntries] = useState<EntriesType[]>([
-    {
-      id: '1',
-      description: '',
-      date: moment().add(-1, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-      illustration: 'https://5sfer.com/wp-content/uploads/2015/08/8ipwnn.jpg',
-    },
-    {
-      id: '2',
-      description: '',
-      date: moment().add(0, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet',
-      illustration: 'https://i.ytimg.com/vi/dX8kSHknlyU/maxresdefault.jpg',
-    },
-    {
-      id: '3',
-      description: '',
-      date: moment().add(1, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-      illustration: 'https://cdni.rt.com/russian/images/2019.08/article/5d63aa84370f2c6e1d8b4589.jpg',
-    }]);
-  const [entriesLove, setEntriesLove] = useState<EntriesType[]>([
-    {
-      id: '4',
-      description: '',
-      date: moment().add(-1, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-      illustration: 'https://5sfer.com/wp-content/uploads/2015/08/8ipwnn.jpg',
-    },
-    {
-      id: '5',
-      description: '',
-      date: moment().add(0, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet',
-      illustration: 'https://i.ytimg.com/vi/dX8kSHknlyU/maxresdefault.jpg',
-    },
-    {
-      id: '6',
-      description: '',
-      date: moment().add(1, 'day').format('LL').toString(),
-      subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-      illustration: 'https://cdni.rt.com/russian/images/2019.08/article/5d63aa84370f2c6e1d8b4589.jpg',
-    },
-
-  ]);
-
-  // useEffect(() => {
-
-  //   if (dateBirth) {
-
-  //     storeDataDate(dateBirth)
-  //     setAnimation(true)
-  //     setAnimationLove(true)
-  //     const storedZodiac = getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.name
-
-  //     async function go() {
-  //       const zodiacParametr = storedZodiac
-  //       fetchHoroscope(zodiacParametr!, '/career/', setAnimationCareer, entriesCareer, setEntriesCareer)
-  //       fetchHoroscope(zodiacParametr!, '/', setAnimation, entries, setEntries)
-  //       fetchHoroscope(zodiacParametr!, '/erotic/', setAnimationLove, entriesLove, setEntriesLove)
-  //     }
-  //     go()
-
-  //   } else {
-  //     async function go2() {
-  //       const storedDate = await getDataDate()
-  //       setDateBirth(storedDate)
-  //     }
-  //     go2()
-  //   }
-  // }, [dateBirth])
-
-
-
 
   return (
     <>
@@ -187,13 +92,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
             <View style={styles.topBar} >
               <Image
-                source={dateBirth ? getZodiacSign(dateBirth.getDate(), dateBirth.getMonth() + 1)?.emoji : undefined}
+                source={storeHoroscope.zodiacSing?.emoji}
                 style={{
                   alignSelf: 'center',
                   alignContent: 'center',
                   width: 50,
                   height: 50,
-                  //marginBottom: 35,
                   borderRadius: 150,
                 }}
                 resizeMode="stretch"
@@ -228,7 +132,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
             <View style={styles.conteiner}>
               <Text style={styles.symbol}>{strings.birhday}</Text>
               <DatePicker
-                date={dateBirth}
+                date={storeHoroscope.dateBirthday}
                 mode="date"
                 format="DD-MM-YYYY"
                 minDate="01-05-1900"
@@ -262,9 +166,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
 
                 }}
                 onDateChange={async (dateStr, date) => {
-                  setDateBirth(date)
-                  setAnimation(true)
-                  setAnimationLove(true)
+                  storeHoroscope.changeDateBirthday(date)
                 }}
               >
               </DatePicker>
@@ -273,20 +175,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
           <View style={styles.carousel}>
             <CarouselHoroscope
               description={strings.finance}
-              entriesCarousel={entriesCareer}
-              animationLoad={animationLoadCareer}
+              entriesCarousel={entriesList.entriesCareer}
+              animationLoad={storeHoroscope.animationFinance}
             />
             <CarouselHoroscope
               description={strings.standart}
-              entriesCarousel={entries}
-              animationLoad={animationLoad}
+              entriesCarousel={entriesList.entries}
+              animationLoad={storeHoroscope.animationStandart}
             />
             <CarouselHoroscope
               description={strings.romantic}
-              entriesCarousel={entriesLove}
-              animationLoad={animationLoad}
+              entriesCarousel={entriesList.entriesLove}
+              animationLoad={storeHoroscope.animationLove}
             />
-
 
           </View>
         </KeyboardAwareScrollView>
@@ -294,7 +195,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = props => {
     </>
 
   )
-}
+})
 
 
 const styles = StyleSheet.create({

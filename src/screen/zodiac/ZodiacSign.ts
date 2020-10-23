@@ -1,4 +1,6 @@
 import moment from 'moment'
+import { ImageSourcePropType } from 'react-native'
+import { Image } from 'react-native-svg'
 
 const strings = {
     zodiac: {
@@ -34,7 +36,7 @@ const strings = {
 export type ZodiacSign = {
     start: [number, number]
     end: [number, number]
-    emoji: () => any
+    emoji: ImageSourcePropType
     title: string
     titleru :string
     name: ZodiacName

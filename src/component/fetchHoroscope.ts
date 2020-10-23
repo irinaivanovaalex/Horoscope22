@@ -3,6 +3,7 @@ import { EntriesType } from "../screen/ProfileScreen"
 import cheerio from 'react-native-cheerio'
 import { ZodiacSigns, ZodiacName } from "../screen/zodiac/ZodiacSign"
 import { useColorScheme } from "react-native"
+import { entriesList } from "./store/StoreEntries"
 
 export async function parseHoroscope(zodiac: string, title: string, day: string) {
   const url = "https://horoscopes.rambler.ru/" + zodiac + title + day
@@ -35,26 +36,13 @@ export const fetchItem = async (zodiac: string, title: string, day: string) => {
   }
 }
 
-export async function fetchHoroscope(
-  zodiacParametr: string | ZodiacName,
-  title: string,
-  setAnimated: (isEnabled: React.SetStateAction<boolean>) => void,
-  entriesItem: EntriesType[],
-  setEntriesItem: (entriesItemIndex: React.SetStateAction<EntriesType[]>) => void) {
+export async function fetchHoroscope(zodiacParametr: string | ZodiacName, title: string, type: 'standart' | 'love' | 'finance') {
   const horoscopes = [
     await fetchItem(zodiacParametr, title, 'yesterday'),
     await fetchItem(zodiacParametr, title, ''),
-    await  fetchItem(zodiacParametr, title, 'tomorrow')
+    await fetchItem(zodiacParametr, title, 'tomorrow')
   ]
-  setAnimated(false)
-  console.log('title', title)
-  const dateHoroscope = entriesItem.map((item, index) => {
-    return {
-      ...item,
-      description: horoscopes[index],
-
-    }
-
-  })
-  setEntriesItem(dateHoroscope)
+  console.log('horoscopes =',horoscopes)
+  await entriesList.changeEntries(type, horoscopes)
+  console.warn('type', type, 'entriesListCareer = ', entriesList.entriesCareer, 'entriesList = ', entriesList.entries, 'entriesListLove = ', entriesList.entriesLove)
 }

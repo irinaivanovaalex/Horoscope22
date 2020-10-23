@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import React, { useRef, useState } from 'react'
 import { StyleProp, ViewStyle, View, Text, StyleSheet, Platform, ActivityIndicator } from 'react-native'
 import { Carousel, Pagination, ParallaxImage } from 'react-native-snap-carousel'
@@ -12,7 +13,7 @@ interface CarouselHoroscopeProps {
 }
 
 
-export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = props => {
+export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = observer(props => {
   const carouselRef = useRef<Carousel<any>>(null);
   const [indexEntries, setIndex] = useState(1);
 
@@ -80,7 +81,7 @@ export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = props => {
       />
     </>
   )
-}
+})
 const styles = StyleSheet.create({
   carousel: {
     marginTop: 20,
