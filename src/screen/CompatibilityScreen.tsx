@@ -3,6 +3,7 @@ import { StyleProp, ViewStyle, View, StatusBar, StyleSheet, } from 'react-native
 import LinearGradient from 'react-native-linear-gradient'
 import { CardCompatibility } from '../component/compatibility/CardCompatibility'
 import { ImageBackground } from '../component/image/ImageBackground'
+import { TopBarHoroscope } from '../component/TopBarHoroscope/TopBarHoroscope'
 import { ZodiacName, } from './zodiac/ZodiacSign'
 
 interface CompatibilityScreenProps {
@@ -21,9 +22,11 @@ export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = props => 
         />
         <View style={styles.conteinerTopBar}>
             <ImageBackground />
+            <TopBarHoroscope />
             {/* <AnimatedView /> */}
-            <CardCompatibility />
+            
         </View>
+        <CardCompatibility />
     </LinearGradient>
 }
 const styles = StyleSheet.create({

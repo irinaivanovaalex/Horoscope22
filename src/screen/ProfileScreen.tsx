@@ -18,6 +18,8 @@ import { storeHoroscope } from '../component/store/StoreHoroscope'
 import { observer } from 'mobx-react'
 import { entriesList } from '../component/store/StoreEntries'
 import { DatePickerHoroscope } from '../component/DatePicker/DatePickerHoroscope'
+import { ImageBackground } from '../component/image/ImageBackground'
+import { TopBarHoroscope } from '../component/TopBarHoroscope/TopBarHoroscope'
 
 export type EntriesType = {
   id: string;
@@ -53,7 +55,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
 
   return (
     <>
-
       <LinearGradient
         colors={['#303f52', '#333132']}
         style={styles.linearGradient}
@@ -63,47 +64,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
           backgroundColor={'rgba(0, 100, 0, 0)'}
         />
         <View style={styles.conteinerTopBar}>
-          <Image
-            source={require('../component/image/space3.jpg')}
-            blurRadius={0.1}
-            style={{
-              alignSelf: 'center',
-              alignContent: 'center',
-              position: 'absolute',
-              opacity: 0.3,
-              transform: [{
-                rotate: '90deg',
-
-              },
-              {
-                translateX: -30,
-              }]
-            }}
-          />
+          <ImageBackground />
           {/* <AnimatedView /> */}
-
-          <View style={styles.conteinerMain}>
-
-            <View style={styles.textContainer}>
-              <Text style={styles.description} numberOfLines={2}>{strings.horoscope}</Text>
-            </View>
-
-            <View style={styles.topBar} >
-              <Image
-                source={storeHoroscope.zodiacSing?.emoji}
-                style={{
-                  alignSelf: 'center',
-                  alignContent: 'center',
-                  width: 50,
-                  height: 50,
-                  borderRadius: 150,
-                }}
-                resizeMode="stretch"
-                resizeMethod="scale"
-              />
-            </View>
-          </View>
-
+          <TopBarHoroscope />
         </View>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
@@ -244,7 +207,7 @@ const styles = StyleSheet.create({
   carousel: {
     marginTop: 20,
     flexDirection: 'column',
-
+    paddingBottom: 65,
   },
   button: {
     width: screenWidth - 100,
@@ -284,4 +247,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(230, 228, 226, 0.2)',
     borderRadius: 10,
   },
+  image: {
+    alignSelf: 'center',
+    alignContent: 'center',
+    width: 50,
+    height: 50,
+    borderRadius: 150,
+  }
 })

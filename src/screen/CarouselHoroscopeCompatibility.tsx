@@ -51,7 +51,7 @@ export const CarouselHoroscopeCompatibility: React.FC<CarouselHoroscopeCompatibi
       vertical={false}
         ref={carouselRef}
         sliderWidth={screenWidth}
-        itemWidth={screenWidth - 330}
+        itemWidth={screenWidth - 320}
         renderItem={renderItem}
         data={Object.values(ZodiacSigns)}
         hasParallaxImages={true}
@@ -74,14 +74,14 @@ const zodiacStyleImage : {[key in HoroscopeType]: StyleProp<ViewStyle | ImageSty
 }
 const zodiacStyleTextSing: {[key in HoroscopeType]: StyleProp<ViewStyle | TextStyle>} ={
   man:{
-    fontSize: screenWidth/42,
+    fontSize: 13,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     textAlign: 'center',
   },
   woman: {
-    fontSize: screenWidth/35,
+    fontSize: 13,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: 'rgba(246, 125, 249, 0.86)',
@@ -90,7 +90,7 @@ const zodiacStyleTextSing: {[key in HoroscopeType]: StyleProp<ViewStyle | TextSt
 }
 const zodiacStyleTitle: {[key in HoroscopeType]: StyleProp<ViewStyle | TextStyle>} = {
   man: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     paddingBottom: 10,
@@ -98,7 +98,7 @@ const zodiacStyleTitle: {[key in HoroscopeType]: StyleProp<ViewStyle | TextStyle
     textTransform: 'uppercase',
   },
   woman: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: 'Montserrat-Light',
     color: 'rgba(246, 125, 249, 0.86)',
     paddingBottom: 10,
@@ -109,7 +109,7 @@ const zodiacStyleTitle: {[key in HoroscopeType]: StyleProp<ViewStyle | TextStyle
 
 const styles = StyleSheet.create({
   item: {
-    width: screenWidth - 340,
+    width: screenWidth - 320,
     height: screenWidth - 340,
   },
   imageContainer: {

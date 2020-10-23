@@ -15,8 +15,8 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
     const [selectedMan, setManZodiac] = useState<ZodiacName>()
     const [isVisible, setVisible] = useState(false)
 
-    return <View style={style}>
-        <Text  style={styles.textTitle}>{strings.compability}</Text>
+    return <View>
+        <Text style={styles.textTitle}>{strings.compability}</Text>
         <View style={styles.carousel}>
             <CarouselHoroscopeCompatibility onSelected={setManZodiac} title={strings.man} type="man" />
         </View>
@@ -62,88 +62,14 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
     </View>
 }
 const styles = StyleSheet.create({
-    linearGradient: {
-        flex: 1,
-    },
+   
     textTitle: {
-                textTransform: 'uppercase',
-        paddingTop: 40,
-        textAlign: 'center',
-        fontSize: 30,
-        color: '#e6e4e2',
-        fontFamily: 'Montserrat-SemiBold',
-    },
-    conteinerTopBar: {
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingBottom: 5,
-    },
-    topBar: {
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        height: 75,
-    },
-    conteinerMain: {
-        padding: 1,
-        marginTop: 25,
-        marginBottom: -5,
-        margin: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignContent: 'space-between',
-
-    },
-    conteiner: {
-        padding: 1,
-        margin: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignContent: 'space-between'
-    },
-    textContainer: {
-        flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-    },
-    description: {
         textTransform: 'uppercase',
+        paddingTop: 10,
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: 20,
         color: '#e6e4e2',
         fontFamily: 'Montserrat-SemiBold',
-
-    },
-    symbol: {
-        fontSize: 18,
-        justifyContent: 'flex-start',
-        color: '#e6e4e2',
-        alignSelf: 'center',
-        alignItems: 'flex-start',
-        paddingTop: 4,
-        fontFamily: 'Montserrat-Light',
-    },
-    item: {
-        width: screenWidth - 100,
-        height: screenWidth - 100,
-    },
-    imageContainer: {
-        flex: 1,
-        marginBottom: Platform.select({ ios: 0, android: 1 }),
-        backgroundColor: 'rgba(230, 228, 226, 0.25)',
-        borderRadius: 8,
-    },
-
-    textInput: {
-        borderColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: 5,
-        alignContent: 'flex-end',
-        textAlign: 'right',
-        flexGrow: 1,
-        color: '#e6e4e2',
-        fontSize: 18,
-        fontFamily: 'Montserrat-Light',
-        shadowColor: 'rgba(0, 0, 0, 0.2)',
     },
     carousel: {
         marginTop: 20,
@@ -168,7 +94,6 @@ const styles = StyleSheet.create({
         //paddingBottom: 10,
         textAlign: 'center',
         textTransform: 'uppercase',
-
     },
     buttonPress: {
 
@@ -181,23 +106,5 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
 
-    },
-    textDescription: {
-        fontSize: 14,
-        fontFamily: 'Montserrat-Light',
-        color: '#e6e4e2',
-        padding: 20,
-        textAlign: 'justify',
-    },
-    conteinerSovmestimost: {
-        padding: 1,
-        paddingBottom: 15,
-        marginHorizontal: 15,
-        marginBottom: 15,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignContent: 'space-between',
-        backgroundColor: 'rgba(230, 228, 226, 0.2)',
-        borderRadius: 10,
     },
 })
