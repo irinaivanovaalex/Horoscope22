@@ -15,13 +15,12 @@ interface CarouselHoroscopeProps {
 
 export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = observer(props => {
   const carouselRef = useRef<Carousel<any>>(null);
-  const [indexEntries, setIndex] = useState(1);
+  const [indexEntries, setIndex] = useState(0);
 
   const renderItem = ({ item, index }: any, parallaxProps: any) => {
     return (
       <View>
         <View style={styles.item}>
-
           <ParallaxImage
             source={require('../component/image/fon.png')}
             blurRadius={0.1}
@@ -59,7 +58,6 @@ export const CarouselHoroscope: React.FC<CarouselHoroscopeProps> = observer(prop
         data={props.entriesCarousel}
         renderItem={renderItem}
         hasParallaxImages={true}
-        firstItem={1}
         onSnapToItem={(index: any) => {
           setIndex(index)
           return 0
@@ -88,13 +86,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   carouselText: {
-    fontSize: screenWidth? (screenWidth/33): 10,
+    fontSize: 13,
     marginTop: 5,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
   },
   carouselTextTitle: {
-    fontSize: screenWidth? (screenWidth/31) : 12,
+    fontSize: 13,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     position: 'absolute',
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   textTitle: {
-    fontSize: screenWidth? (screenWidth/27) : 12,
+    fontSize: 16,
     fontFamily: 'Montserrat-Light',
     color: '#e6e4e2',
     paddingBottom: 10,
@@ -112,8 +110,9 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   item: {
-    width: screenWidth? (screenWidth - 100) : 200,
-    height: screenWidth? screenWidth - 100: 300,
+    width: (screenWidth - 100),
+    height: screenWidth - 100,
+    maxHeight: screenWidth
   },
   imageContainer: {
     flex: 1,

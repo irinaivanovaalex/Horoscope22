@@ -1,19 +1,22 @@
+
 import React, { useState } from 'react'
+import { observer } from 'mobx-react'
 import { StyleProp, ViewStyle, View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native'
 import { CarouselHoroscopeCompatibility } from '../../screen/CarouselHoroscopeCompatibility'
 import { ZodiacName, ZodiacSigns } from '../../screen/zodiac/ZodiacSign'
 import { strings } from '../Strings'
 import { FlatlistCompatibility } from './FlatlistCompatibility'
+import { storeCompatibility } from '../store/StoreCompatibility'
 
 interface CardCompatibilityProps {
     style?: StyleProp<ViewStyle>
 }
 const { width: screenWidth } = Dimensions.get('window')
-export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
+export const CardCompatibility: React.FC<CardCompatibilityProps> = observer(props => {
     const { style } = props
     const [selectedWoman, setWomanZodiac] = useState<ZodiacName>()
     const [selectedMan, setManZodiac] = useState<ZodiacName>()
-    const [isVisible, setVisible] = useState(false)
+   // const [isVisible, setVisible] = useState(false)
 
     return <View>
         <Text style={styles.textTitle}>{strings.compability}</Text>
@@ -29,14 +32,11 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
             alignSelf: 'center',
         }}
             onPress={async () => {
-
-                console.warn('selectedMan:', selectedMan)
-                console.warn('selectedWoman:', selectedWoman)
-                isVisible ? setVisible(false) : setVisible(true)
+                storeCompatibility.setVisible()
 
             }}>
 
-            {isVisible ?
+            {storeCompatibility.isVisible ?
                 <View style={styles.buttonPress}>
                     <Text style={styles.textTitleButton}>{strings.removeCompability}</Text>
                 </View>
@@ -45,7 +45,7 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
                 </View>}
 
         </TouchableOpacity>
-        {isVisible ?
+        {storeCompatibility.isVisible ?
             (<>
                 <View style={{
                     alignSelf: 'center',
@@ -60,7 +60,7 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = props => {
 
             </>) : <></>}
     </View>
-}
+})
 const styles = StyleSheet.create({
    
     textTitle: {
@@ -77,10 +77,10 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        width: screenWidth - 100,
-        height: screenWidth / 7,
+        width: 300,
+        height: 40,
         backgroundColor: 'rgba(230, 228, 226, 0.25)',
-        borderRadius: 10,
+        borderRadius: 30,
         marginHorizontal: 15,
         alignItems: 'center',
         alignContent: 'center',
@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
     },
     buttonPress: {
 
-        width: screenWidth - 100,
-        height: screenWidth / 7,
+        width: 300,
+        height: 40,
         backgroundColor: 'rgba(246, 125, 249, 0.3)',
-        borderRadius: 10,
+        borderRadius: 30,
         marginHorizontal: 15,
         alignItems: 'center',
         alignContent: 'center',

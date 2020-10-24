@@ -1,5 +1,8 @@
+
 import React, { useState } from 'react'
+import { observer } from 'mobx-react'
 import { StyleProp, ViewStyle, View, StatusBar, StyleSheet, } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { CardCompatibility } from '../component/compatibility/CardCompatibility'
 import { ImageBackground } from '../component/image/ImageBackground'
@@ -10,7 +13,7 @@ interface CompatibilityScreenProps {
     style?: StyleProp<ViewStyle>
 }
 
-export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = props => {
+export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = observer(props => {
 
     return <LinearGradient
         colors={['#303f52', '#333132']}
@@ -24,11 +27,18 @@ export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = props => 
             <ImageBackground />
             <TopBarHoroscope />
             {/* <AnimatedView /> */}
-            
+
         </View>
-        <CardCompatibility />
+        <ScrollView
+            showsVerticalScrollIndicator={false}>
+            <CardCompatibility />
+            <View style={styles.scroll} >
+
+            </View>
+        </ScrollView>
+
     </LinearGradient>
-}
+})
 const styles = StyleSheet.create({
     linearGradient: {
         flex: 1,
@@ -38,4 +48,7 @@ const styles = StyleSheet.create({
         paddingRight: 15,
         paddingBottom: 5,
     },
+    scroll: {
+        paddingBottom: 80,
+    }
 })

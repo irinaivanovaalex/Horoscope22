@@ -3,6 +3,9 @@ import cheerio from 'react-native-cheerio'
 import React, { useEffect, useState } from 'react'
 import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
 import { screenWidth } from '../../screen/GoroskopScreen'
+import { storeCompatibility } from '../store/StoreCompatibility'
+import { observer } from 'mobx-react'
+import { storeCompatibilityParser } from '../store/StoreCompatibilityParser'
 
 
 interface FlatlistCompatibilityProps {
@@ -11,98 +14,44 @@ interface FlatlistCompatibilityProps {
     zodiacWoman: string
     //scrollRef: RefObject<KeyboardAwareScrollView>
 }
-type ParserComp = {
-    title: string,
-    text: string,
-}
-export async function parseH(zodiacWomen: string, zodiacMan: string) {
-    const url = "https://horoscopes.rambler.ru/" + 'sovmestimost-znakov-zodiaka/zhenshhina-' + zodiacWomen + '-muzhchina-' + zodiacMan
-    const response = await Axios.get(url)
-    const $ = cheerio.load(response.data)
-    const classItems = $(
-        '#app > main > div.content._3Hki > div > div > section > div._3AUe',
-    ).toArray()
 
-    const textParse = [
-        {
-            title: classItems[0].children[0].children[1].children[0].data || '',
-            text: classItems[0].children[0].children[2].children[0].data || '',
-        },
-        {
-            title: classItems[0].children[2].children[1].children[0].data || '',
-            text: classItems[0].children[2].children[2].children[0].data || '',
-        },
-        {
-            title: classItems[0].children[3].children[3].children[0].data || '',
-            text: classItems[0].children[3].children[4].children[0].data || '',
-        },
-        {
-            title: classItems[0].children[4].children[1].children[0].data || '',
-            text: classItems[0].children[4].children[2].children[0].data || '',
-        }
-    ]
-    console.log('parseH', textParse)
-    return textParse
-}
-
-export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = props => {
-    const { style, zodiacMan, zodiacWoman,  } = props
-    const [isPress, setPress] = useState(Boolean)
-
-    const [dataParser, setDataParser] = useState([{
-        title: '',
-        text: '',
-    },
-    {
-        title: '',
-        text: '',
-    },
-    {
-        title: '',
-        text: '',
-    },
-    {
-        title: '',
-        text: '',
-    }])
-    useEffect(() => {
-        async function go() {
-            setDataParser(await parseH(zodiacWoman, zodiacMan))
-            setPress(false)
-        }
-        go()
-        
-    }, [])
-
-    const renderItem = ({ item }: any) => {
+export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = observer(props => {
+    const { style, zodiacMan, zodiacWoman, } = props
+    const renderItem = ({ item, index }) => {
         // scrollRef.current?.scrollToEnd(true)
         return (
             <>
                 <View style={styles.flatView}>
                     <TouchableOpacity
-                        onPress={async () => {
-                            isPress? setPress(false) : setPress(true)
+                        onPress={() => {
+                            storeCompatibility.changeSelectedCompatibility(index)
                         }}
                     >
-                                <View style={styles.flatViewTitle}>
-                                    <Text style={styles.flatTitle}>{item.title}</Text>
-                                </View>
+                        <View style={styles.flatViewTitle}>
+                            <Text style={styles.flatTitle}>{item.title}</Text>
+                        </View>
                     </TouchableOpacity>
-                    {isPress? 
-                    <Text style={styles.flatText}>{item.text}</Text> 
-                    : <></>
-                }
+                    {!!storeCompatibility.selectedCompatibility[index] && <Text style={styles.flatText}>{item.text}</Text>}
                 </View>
             </>
         )
     }
+    useEffect(() => {
+        async function go() {
+            storeCompatibilityParser.setDataParser(zodiacWoman, zodiacMan)
+        }
+        go()
+
+    }, [])
     return (
         <FlatList
+            extraData={[...storeCompatibility.selectedCompatibility]}
             renderItem={renderItem}
-            data={dataParser}
+            data={storeCompatibilityParser.dataParser}
         />)
 
-}
+})
+
 const styles = StyleSheet.create({
     flatView: {
         width: screenWidth - (screenWidth / 10),
@@ -140,5 +89,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
+        height: 40
     },
 })
