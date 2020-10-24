@@ -35,10 +35,15 @@ export class StoreCompatibility {
     
     animatedCompatibility: [boolean, boolean, boolean, boolean] = [false, false, false, false]
     
-    changeAnimatedCompatibility (index: number){
-        this.animatedCompatibility[index]? this.animatedCompatibility[index]= false : this.animatedCompatibility[index] = true
+    changeAnimatedCompatibility (){
+        this.animatedCompatibility[0]? this.animatedCompatibility[0]= false : this.animatedCompatibility[0] = true
+        this.animatedCompatibility[1]? this.animatedCompatibility[1]= false : this.animatedCompatibility[1] = true
+        this.animatedCompatibility[2]? this.animatedCompatibility[2]= false : this.animatedCompatibility[2] = true
+        this.animatedCompatibility[3]? this.animatedCompatibility[3]= false : this.animatedCompatibility[3] = true
     }
-
+    clearAnimatidCompatybility(){
+        this.animatedCompatibility = [false, false, false, false]
+    }
     constructor() {
         makeObservable(this, {
             selectedCompatibility: observable,
@@ -52,6 +57,7 @@ export class StoreCompatibility {
             isScrollRef: action,
             animatedCompatibility: observable,
             changeAnimatedCompatibility: action,
+            clearAnimatidCompatybility: action
         })
     }
 }

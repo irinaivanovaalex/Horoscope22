@@ -20,6 +20,7 @@ import { entriesList } from '../component/store/StoreEntries'
 import { DatePickerHoroscope } from '../component/DatePicker/DatePickerHoroscope'
 import { ImageBackground } from '../component/image/ImageBackground'
 import { TopBarHoroscope } from '../component/TopBarHoroscope/TopBarHoroscope'
+import { storeCompatibility } from '../component/store/StoreCompatibility'
 
 export type EntriesType = {
   id: string;
@@ -50,8 +51,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
   const [value, onChangText] = useState('Your Name')
   useEffect(() => {
     getDataName().then(onChangText)
+    storeCompatibility.clearSelectedCompatibility()
+    storeCompatibility.clearAnimatidCompatybility()
   }, [])
-  
+
 
   return (
     <>

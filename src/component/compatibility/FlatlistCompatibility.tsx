@@ -29,7 +29,6 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = obser
                             storeCompatibility.changeSelectedCompatibility(index)
                             storeCompatibility.setRotate(index)
                             storeCompatibility.isScrollRef()
-                            storeCompatibility.changeAnimatedCompatibility(index)
                         }}
                     >
                         <View style={styles.flatViewTitle}>

@@ -52,10 +52,7 @@ export class StoreCompatibilityParser {
 
     async setDataParser(zodiacWomen: string, zodiacMan: string) {
         this.dataParser = await parseH(zodiacWomen, zodiacMan)
-        storeCompatibility.changeAnimatedCompatibility(0)
-        storeCompatibility.changeAnimatedCompatibility(1)
-        storeCompatibility.changeAnimatedCompatibility(2)
-        storeCompatibility.changeAnimatedCompatibility(3)
+        storeCompatibility.changeAnimatedCompatibility()
     }
 
     constructor() {

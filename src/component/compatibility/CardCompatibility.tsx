@@ -33,7 +33,7 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = observer(prop
         }}
             onPress={async () => {
                 storeCompatibility.setVisible()
-
+                storeCompatibility.changeAnimatedCompatibility()
             }}>
 
             {storeCompatibility.isVisible ?
