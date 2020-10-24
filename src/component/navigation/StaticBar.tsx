@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 
     },
     activeIcon: {
-        backgroundColor: "rgba(41, 53, 69, 0.8)",
+        backgroundColor: "rgba(230, 228, 226, 0.7)",
         width: 40,
         height: 40,
         borderRadius: 20,

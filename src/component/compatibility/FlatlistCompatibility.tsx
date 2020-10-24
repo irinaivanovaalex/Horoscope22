@@ -6,6 +6,8 @@ import { screenWidth } from '../../screen/GoroskopScreen'
 import { storeCompatibility } from '../store/StoreCompatibility'
 import { observer } from 'mobx-react'
 import { storeCompatibilityParser } from '../store/StoreCompatibilityParser'
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 
 interface FlatlistCompatibilityProps {
@@ -25,10 +27,12 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = obser
                     <TouchableOpacity
                         onPress={() => {
                             storeCompatibility.changeSelectedCompatibility(index)
+                            storeCompatibility.setRotate(index)
                         }}
                     >
                         <View style={styles.flatViewTitle}>
                             <Text style={styles.flatTitle}>{item.title}</Text>
+                            <Icon name='caret-down' size={20}  color='white' style={{ marginRight: 25, transform: [{ rotate: storeCompatibility.rotate[index] }] }} />
                         </View>
                     </TouchableOpacity>
                     {!!storeCompatibility.selectedCompatibility[index] && <Text style={styles.flatText}>{item.text}</Text>}
@@ -45,7 +49,7 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = obser
     }, [])
     return (
         <FlatList
-            extraData={[...storeCompatibility.selectedCompatibility]}
+            extraData={[...storeCompatibility.selectedCompatibility, ...storeCompatibility.rotate]}
             renderItem={renderItem}
             data={storeCompatibilityParser.dataParser}
         />)
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     flatTitle: {
         fontSize: 16,
         fontFamily: 'Montserrat-Light',
-        color: '#e6e4e2',
+        color: 'white',
         marginVertical: 10,
         paddingHorizontal: 20,
         paddingVertical: 5,
@@ -88,7 +92,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         alignItems: 'center',
         alignContent: 'center',
-        justifyContent: 'center',
-        height: 40
+        justifyContent: 'space-between',
+        height: 40,
+        flexDirection: 'row'
     },
 })

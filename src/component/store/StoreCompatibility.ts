@@ -5,7 +5,7 @@ export class StoreCompatibility {
     selectedCompatibility: [boolean, boolean, boolean, boolean] = [false, false, false, false]
 
     clearSelectedCompatibility() {
-        this.selectedCompatibility = [false,false,false, false]
+        this.selectedCompatibility = [false, false, false, false]
     }
     changeSelectedCompatibility(index: number) {
         if (this.selectedCompatibility[index]) {
@@ -20,6 +20,10 @@ export class StoreCompatibility {
     setVisible() {
         this.isVisible ? this.isVisible = false : this.isVisible = true
     }
+    rotate: [string, string, string, string] = ['90deg', '90deg', '90deg', '90deg']
+    setRotate(index: number) {
+        this.selectedCompatibility[index] ? this.rotate[index] = '0deg' : this.rotate[index] = '90deg'
+    }
     constructor() {
         makeObservable(this, {
             selectedCompatibility: observable,
@@ -27,7 +31,8 @@ export class StoreCompatibility {
             clearSelectedCompatibility: action,
             isVisible: observable,
             setVisible: action,
-        
+            rotate: observable,
+            setRotate: action,
         })
     }
 }

@@ -22,7 +22,7 @@ const width = rem
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 const height = 64
 
-const backgroundColor = "rgba(41, 53, 69, 0.8)"
+const backgroundColor = "rgba(230, 228, 226, 0.7)"
 
 const AnimatedPath = Animated.createAnimatedComponent(Path)
 
