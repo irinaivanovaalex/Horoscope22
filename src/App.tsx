@@ -17,15 +17,20 @@ import { createMyNavigator } from './component/navigation/CustomBar';
 import { observer } from 'mobx-react';
 import { CompatibilityScreen } from './screen/CompatibilityScreen';
 import { storeHoroscope } from './component/store/StoreHoroscope';
+import SplashScreen from 'react-native-splash-screen'
+import { StatusBar } from 'react-native';
 
 const My = createMyNavigator()
 
 const App = observer(() => {
   useEffect(() => {
+    SplashScreen.hide()
     storeHoroscope.init()
+    
   }, [])
   return (
     <>
+    <StatusBar barStyle="light-content" />
       <NavigationContainer>
         <My.Navigator colorActive="white" colorInactive='white' animationbutton='top' speed={100}>
           <My.Screen name='eye' component={ProfileScreen} />

@@ -11,7 +11,7 @@ export const AnimatedView: React.FC<AnimatedViewProps> = props => {
     const { style } = props
     const animatedX = useMemo(() => new Animated.Value(0), [])
     const animatedY = useMemo(() => new Animated.Value(0), [])
-    
+
     function decayX(xPar: number) {
         Animated.decay(
             animatedX,
@@ -32,15 +32,19 @@ export const AnimatedView: React.FC<AnimatedViewProps> = props => {
             }
         ).start()
     }
-    
+
     useEffect(() => {
-        accelerometer.subscribe(({ x, y, z, }) => {
+        const sub = accelerometer.subscribe(({ x, y, z, }) => {
             animatedX.setValue(x)
             animatedY.setValue(y)
             decayX(x)
             decayY(y)
             console.log(JSON.stringify({ x, y, z, }, null, '  '))
         })
+
+        return () => {
+            sub.unsubscribe()
+        }
     }, [])
     return (
         <Animated.View style={{
