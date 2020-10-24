@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from 'mobx'
 import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
+import { storeCompatibility } from './StoreCompatibility'
 
 export async function parseH(zodiacWomen: string, zodiacMan: string) {
     const url = "https://horoscopes.rambler.ru/" + 'sovmestimost-znakov-zodiaka/zhenshhina-' + zodiacWomen + '-muzhchina-' + zodiacMan
@@ -51,6 +52,10 @@ export class StoreCompatibilityParser {
 
     async setDataParser(zodiacWomen: string, zodiacMan: string) {
         this.dataParser = await parseH(zodiacWomen, zodiacMan)
+        storeCompatibility.changeAnimatedCompatibility(0)
+        storeCompatibility.changeAnimatedCompatibility(1)
+        storeCompatibility.changeAnimatedCompatibility(2)
+        storeCompatibility.changeAnimatedCompatibility(3)
     }
 
     constructor() {

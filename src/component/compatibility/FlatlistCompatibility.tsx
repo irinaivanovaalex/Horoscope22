@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import cheerio from 'react-native-cheerio'
 import React, { useEffect, useState } from 'react'
-import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native'
+import { StyleProp, ViewStyle, View, StyleSheet, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { screenWidth } from '../../screen/GoroskopScreen'
 import { storeCompatibility } from '../store/StoreCompatibility'
 import { observer } from 'mobx-react'
@@ -14,13 +14,13 @@ interface FlatlistCompatibilityProps {
     style?: StyleProp<ViewStyle>
     zodiacMan: string
     zodiacWoman: string
-    //scrollRef: RefObject<KeyboardAwareScrollView>
+
 }
 
 export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = observer(props => {
     const { style, zodiacMan, zodiacWoman, } = props
     const renderItem = ({ item, index }) => {
-        // scrollRef.current?.scrollToEnd(true)
+        storeCompatibility.isScrollRef()
         return (
             <>
                 <View style={styles.flatView}>
@@ -28,11 +28,21 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = obser
                         onPress={() => {
                             storeCompatibility.changeSelectedCompatibility(index)
                             storeCompatibility.setRotate(index)
+                            storeCompatibility.isScrollRef()
+                            storeCompatibility.changeAnimatedCompatibility(index)
                         }}
                     >
                         <View style={styles.flatViewTitle}>
-                            <Text style={styles.flatTitle}>{item.title}</Text>
-                            <Icon name='caret-down' size={20}  color='white' style={{ marginRight: 25, transform: [{ rotate: storeCompatibility.rotate[index] }] }} />
+                            {storeCompatibility.animatedCompatibility[index]
+                                ? <ActivityIndicator
+                                    color="#e6e4e2"
+                                    style={styles.styleIndikator}
+                                    animating={storeCompatibility.animatedCompatibility[index]}
+                                    size='small'
+                                />
+                                :
+                                <Text style={styles.flatTitle}>{item.title}</Text>}
+                            <Icon name='caret-down' size={20} color='white' style={{ marginRight: 25, transform: [{ rotate: storeCompatibility.rotate[index] }] }} />
                         </View>
                     </TouchableOpacity>
                     {!!storeCompatibility.selectedCompatibility[index] && <Text style={styles.flatText}>{item.text}</Text>}
@@ -49,7 +59,7 @@ export const FlatlistCompatibility: React.FC<FlatlistCompatibilityProps> = obser
     }, [])
     return (
         <FlatList
-            extraData={[...storeCompatibility.selectedCompatibility, ...storeCompatibility.rotate]}
+            extraData={[...storeCompatibility.selectedCompatibility, ...storeCompatibility.rotate, ...storeCompatibility.animatedCompatibility]}
             renderItem={renderItem}
             data={storeCompatibilityParser.dataParser}
         />)
@@ -96,4 +106,10 @@ const styles = StyleSheet.create({
         height: 40,
         flexDirection: 'row'
     },
+    styleIndikator:{
+        marginLeft: 25,
+    },
+    icon:{
+        
+    }
 })

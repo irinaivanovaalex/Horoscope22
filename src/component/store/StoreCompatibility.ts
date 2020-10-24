@@ -1,4 +1,6 @@
 import { action, comparer, computed, makeObservable, observable, } from "mobx"
+import { RefObject, useRef } from "react"
+import { ScrollView } from "react-native-gesture-handler"
 
 export class StoreCompatibility {
 
@@ -21,9 +23,22 @@ export class StoreCompatibility {
         this.isVisible ? this.isVisible = false : this.isVisible = true
     }
     rotate: [string, string, string, string] = ['90deg', '90deg', '90deg', '90deg']
+    
     setRotate(index: number) {
         this.selectedCompatibility[index] ? this.rotate[index] = '0deg' : this.rotate[index] = '90deg'
     }
+
+    scrollRef: RefObject<ScrollView> = undefined
+    isScrollRef(){
+        this.scrollRef?.current?.scrollToEnd({animated: true})
+    }
+    
+    animatedCompatibility: [boolean, boolean, boolean, boolean] = [false, false, false, false]
+    
+    changeAnimatedCompatibility (index: number){
+        this.animatedCompatibility[index]? this.animatedCompatibility[index]= false : this.animatedCompatibility[index] = true
+    }
+
     constructor() {
         makeObservable(this, {
             selectedCompatibility: observable,
@@ -33,6 +48,10 @@ export class StoreCompatibility {
             setVisible: action,
             rotate: observable,
             setRotate: action,
+            scrollRef: observable,
+            isScrollRef: action,
+            animatedCompatibility: observable,
+            changeAnimatedCompatibility: action,
         })
     }
 }

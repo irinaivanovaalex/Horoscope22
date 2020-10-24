@@ -51,7 +51,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
   useEffect(() => {
     getDataName().then(onChangText)
   }, [])
-  const scrollRef = useRef<KeyboardAwareScrollView>(null)
+  
 
   return (
     <>
@@ -65,12 +65,11 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = observer(props => {
         />
         <View style={styles.conteinerTopBar}>
           <ImageBackground />
-          {/* <AnimatedView /> */}
+          <AnimatedView />
           <TopBarHoroscope />
         </View>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          ref={scrollRef}
           bouncesZoom={true}
           style={{
             paddingBottom: 15,

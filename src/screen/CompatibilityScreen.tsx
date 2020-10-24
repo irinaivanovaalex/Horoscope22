@@ -8,11 +8,14 @@ import { CardCompatibility } from '../component/compatibility/CardCompatibility'
 import { ImageBackground } from '../component/image/ImageBackground'
 import { TopBarHoroscope } from '../component/TopBarHoroscope/TopBarHoroscope'
 import { ZodiacName, } from './zodiac/ZodiacSign'
+import { storeCompatibility } from '../component/store/StoreCompatibility'
+import { AnimatedView } from '../component/animatedComponent/AnimatedView'
+import { SensorTypes, setUpdateIntervalForType } from 'react-native-sensors'
 
 interface CompatibilityScreenProps {
     style?: StyleProp<ViewStyle>
 }
-
+setUpdateIntervalForType(SensorTypes.accelerometer, 32)
 export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = observer(props => {
 
     return <LinearGradient
@@ -26,10 +29,12 @@ export const CompatibilityScreen: React.FC<CompatibilityScreenProps> = observer(
         <View style={styles.conteinerTopBar}>
             <ImageBackground />
             <TopBarHoroscope />
-            {/* <AnimatedView /> */}
+            <AnimatedView />
 
         </View>
         <ScrollView
+            ref={storeCompatibility.scrollRef}
+            bouncesZoom
             showsVerticalScrollIndicator={false}>
             <CardCompatibility />
             <View style={styles.scroll} >

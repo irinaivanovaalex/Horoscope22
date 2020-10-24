@@ -59,7 +59,7 @@ export const AnimatedView: React.FC<AnimatedViewProps> = props => {
 
         }}>
             <Image
-                source={require('./image/space3.jpg')}
+                source={require('../image/space3.jpg')}
                 blurRadius={0.2}
                 style={{
                     alignSelf: 'center',

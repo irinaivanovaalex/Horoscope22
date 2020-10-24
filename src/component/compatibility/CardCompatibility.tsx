@@ -53,7 +53,7 @@ export const CardCompatibility: React.FC<CardCompatibilityProps> = observer(prop
                     justifyContent: 'center',
                 }}>
                     <FlatlistCompatibility
-                        //scrollRef={scrollRef}
+                        
                         zodiacMan={Object.values(ZodiacSigns).find(it => it.name === selectedMan)?.titleru!}
                         zodiacWoman={Object.values(ZodiacSigns).find(it => it.name === selectedWoman)?.titleru!} />
                 </View>
