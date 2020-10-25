@@ -20,23 +20,25 @@ import { CompatibilityScreen } from './screen/CompatibilityScreen';
 import { storeHoroscope } from './component/store/StoreHoroscope';
 
 import { StatusBar } from 'react-native';
+import { SplashScreenAnimated } from './component/splash/SplashScreenAnimated';
 
 const My = createMyNavigator()
 
 const App = observer(() => {
   useEffect(() => {
     SplashScreen.hide()
-    storeHoroscope.init()
+    //storeHoroscope.init()
     
   }, [])
   return (
     <>
-      <NavigationContainer>
+    <SplashScreenAnimated/>
+      {/* <NavigationContainer>
         <My.Navigator colorActive="white" colorInactive='white' animationbutton='top' speed={100}>
           <My.Screen name='eye' component={ProfileScreen} />
           <My.Screen name='heart' component={CompatibilityScreen} />
         </My.Navigator>
-      </NavigationContainer>
+      </NavigationContainer> */}
     </>
   );
 })
