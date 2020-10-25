@@ -5,7 +5,7 @@
         android:drawable="@color/splashscreen_bg"/>
 
     <item
-        android:drawable="@mipmap/ic_launcher_round"
+        android:drawable="@mipmap/splash"
         android:gravity="center" />
 
 

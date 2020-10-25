@@ -11,13 +11,14 @@
 import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen'
 import { GoroskopScreen } from './screen/GoroskopScreen';
 import { ProfileScreen } from './screen/ProfileScreen';
 import { createMyNavigator } from './component/navigation/CustomBar';
 import { observer } from 'mobx-react';
 import { CompatibilityScreen } from './screen/CompatibilityScreen';
 import { storeHoroscope } from './component/store/StoreHoroscope';
-import SplashScreen from 'react-native-splash-screen'
+
 import { StatusBar } from 'react-native';
 
 const My = createMyNavigator()
@@ -30,7 +31,6 @@ const App = observer(() => {
   }, [])
   return (
     <>
-    <StatusBar barStyle="light-content" />
       <NavigationContainer>
         <My.Navigator colorActive="white" colorInactive='white' animationbutton='top' speed={100}>
           <My.Screen name='eye' component={ProfileScreen} />
